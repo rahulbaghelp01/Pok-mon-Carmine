@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+
+
+:root {
+    --primary: linear-gradient(135deg,
+            #590016 0%,
+            #430012 60%,
+            #2A000B 100%);
+    --paper: radial-gradient(ellipse at center,
+            #fff7e6 0%,
+            #f5e3bf 22%,
+            #ebd09f 48%,
+            #d9ae73 75%,
+            #8a5627 100%);
+    --black: #161311;
+    --brown: #6A4A2D;
+    --text: #2A1D14;
+    /* Main text ⭐ */
+    --text-light: #5B4738;
+    /* Secondary text */
+    --gold: #C89B3C;
+    --success: #3E7A45;
+    --danger: #8B1E2D;
+    --shadow: #5A3A20;
+    --white: #FFF9EC;
+
+    /*text*/
+    --font-heading: "Cinzel", serif;
+    --font-body: "Inter", sans-serif;
+
+}
+
+
+
+@theme {
+  --font-cinzel: "Cinzel", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+}
+
+ 
