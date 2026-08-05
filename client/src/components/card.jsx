@@ -1,7 +1,8 @@
-import Charmander from "../assets/pokemon-images/Charmander.jpg"
+
+
 import frame from "../assets/svg-border/frame.svg"
 
-function Card({ name }) {
+function Card({ name,image }) {
 
     return (
         <div className="h-90 w-60 p-2 bg-[var(--gold)] rounded">
@@ -16,7 +17,7 @@ function Card({ name }) {
                     </div>
                     <p className="left-1 absolute top-0 text-[var(--gold)] font-bold">{name}</p>
 
-                    <img className="w-full h-full object-cover" src={Charmander} alt={`${name} img`} />
+                    <img className="w-full h-full object-cover" src={image} alt={`${name} img`} />
                 </div>
             </div>
         </div>

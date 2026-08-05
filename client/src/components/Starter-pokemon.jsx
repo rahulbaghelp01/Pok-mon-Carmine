@@ -1,4 +1,7 @@
 import Card from "./card.jsx"
+import Charmander from "../assets/pokemon-images/Charmander.jpg"
+import Balbasauras from "../assets/pokemon-images/balbasauras.jpg"
+import Squirtle from "../assets/pokemon-images/squirtle.jpg"
 
 
 function StarterPokemon() {
@@ -14,9 +17,9 @@ function StarterPokemon() {
             </div>
 
             <div className=" flex justify-around items-center     w-200 h-100">
-                <Card name="Charmandar"  />
-                <Card  />
-                <Card  />
+                <Card name="Charmandar" image={Charmander} />
+                <Card name="Balbasauras" image={Balbasauras}  />
+                <Card name="Squirtle" image={Squirtle}  />
             </div>
         </div>
     )

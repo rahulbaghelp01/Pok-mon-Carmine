@@ -1,4 +1,9 @@
 {
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch ./src/server.js",
+    "temp": "node --watch ./src/data.js"
+  },
   "dependencies": {
     "express": "^5.2.1"
   }
