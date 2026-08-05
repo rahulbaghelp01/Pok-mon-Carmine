@@ -11,7 +11,7 @@ export default function Model() {
 
   return (
     <Center>
-      <primitive object={model.scene} scale={0.1} />
+      <primitive object={model.scene} scale={0.14} />
     </Center>
   );
 }
