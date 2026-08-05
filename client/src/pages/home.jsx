@@ -8,7 +8,7 @@ function Home() {
       <div className="w-full h-[90vh] max-w-[900px]">
         <Canvas
           className="block h-full w-full"
-          camera={{ position: [0, 0, 7], fov: 45, near: 0.1, far: 1000 }}
+          camera={{ position: [0, 0, 10], fov: 35, near: 0.1, far: 1000 }}
           dpr={[1, 2]}
         >
           <ambientLight intensity={1.2} />
