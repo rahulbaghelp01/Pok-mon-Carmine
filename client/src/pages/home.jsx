@@ -2,26 +2,25 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { OrbitControls } from "@react-three/drei";
 import Model from "../components/3d_pokeball";
+import Navbar from "../components/navbar";
 
 function Home() {
   return (
-    <main className="min-h-screen w-screen flex items-center justify-center bg-[var(--black)]">
-      <div className="w-full h-[90vh] max-w-[900px]">
-        <Canvas
-          className="block h-full w-full"
-          camera={{ position: [0, 0, 8], fov: 40, near: 0.1, far: 1000 }}
-          dpr={[1, 2]}
-        >
-          <color attach="background" args={["#161311"]} />
-          <ambientLight intensity={1.2} />
-          <directionalLight position={[5, 5, 5]} intensity={3} />
-          <Suspense fallback={null}>
-            <Model />
-          </Suspense>
-          <OrbitControls enablePan={false} enableZoom={true} />
-        </Canvas>
-      </div>
-    </main>
+    <main className="flex flex-col h-screen overflow-hidden">
+  <Navbar />
+  <div className="flex-1 min-h-0 flex items-center justify-center">
+    <div className="h-[60%] w-[40%]">
+      <Canvas camera={{ position: [0, 0, 3], fov: 50 }}>
+        <ambientLight intensity={5} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+        <Suspense fallback={null}>
+          <Model />
+        </Suspense>
+        <OrbitControls enableZoom={false} />
+      </Canvas>
+    </div>
+  </div>
+</main>
   );
 }
 

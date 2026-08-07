@@ -15,7 +15,10 @@
             #ebd09f 48%,
             #d9ae73 75%,
             #8a5627 100%);
-    --black: #161311;
+    --black: #060608;
+    --black-bg: radial-gradient(1200px 800px at 15% 10%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(900px 700px at 85% 90%, rgba(255,255,255,0.06), transparent 60%),
+        linear-gradient(160deg, #14141a 0%, #08080b 45%, var(--black) 100%);
     --brown: #6A4A2D;
     --text: #2A1D14;
     /* Main text ⭐ */
@@ -41,3 +44,10 @@
 }
 
  
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* the app itself shouldn't scroll */
+  background: var(--black-bg);
+}

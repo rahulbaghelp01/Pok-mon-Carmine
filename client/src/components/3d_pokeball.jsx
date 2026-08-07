@@ -1,17 +1,14 @@
-import { useEffect } from "react";
-import { Center, useGLTF } from "@react-three/drei";
-import pokeballModel from "../assets/Pokeball_textured.glb?url";
+import { useGLTF, Center } from "@react-three/drei";
+import pokeballModel from "../assets/Pokeball_textured_fixed.glb?url";
 
 export default function Model() {
-  const model = useGLTF(pokeballModel);
-
-  useEffect(() => {
-    console.log(model);
-  }, [model]);
+  const { scene } = useGLTF(pokeballModel);
 
   return (
     <Center>
-      <primitive object={model.scene} scale={0.14} />
+      <primitive object={scene} scale={1.8} />
     </Center>
   );
 }
+
+useGLTF.preload(pokeballModel);
