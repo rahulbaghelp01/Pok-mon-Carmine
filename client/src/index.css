@@ -29,6 +29,9 @@
     --danger: #8B1E2D;
     --shadow: #5A3A20;
     --white: #FFF9EC;
+    --darkbrown:#36220f;
+
+
 
     /*text*/
     --font-heading: "Cinzel", serif;
@@ -49,5 +52,5 @@ html, body, #root {
   height: 100%;
   margin: 0;
   overflow: hidden; /* the app itself shouldn't scroll */
-  background: var(--primary);
+  background: var(--brown);
 }
