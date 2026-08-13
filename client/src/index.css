@@ -51,6 +51,6 @@
 html, body, #root {
   height: 100%;
   margin: 0;
-  overflow: hidden; /* the app itself shouldn't scroll */
+    overflow-x: hidden; /* the app itself shouldn't scroll */
   background: var(--brown);
 }
