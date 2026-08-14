@@ -18,8 +18,8 @@ function StarterPokemon() {
 
             <div className=" flex justify-around items-center     w-200 h-100">
                 <Card name="Charmandar" image={Charmander} />
-                <Card name="Balbasauras" image={Balbasauras}  />
-                <Card name="Squirtle" image={Squirtle}  />
+                <Card name="Balbasauras"   />
+                <Card name="Squirtle"    />
             </div>
         </div>
     )
