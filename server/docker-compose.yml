@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: pokemon_password
       POSTGRES_DB: pokemon_game
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pokemon_data:/var/lib/postgresql/data
 
