@@ -38,6 +38,12 @@ router.get("/", async (req, res) => {
 
 router.post("/validate", (req, res) => {
 
+    const {authorization} = req.headers;
+
+    if(!authorization) {
+        return res.status(401).json({error: "Authorization token missing"});
+    }
+
 });
 
 
