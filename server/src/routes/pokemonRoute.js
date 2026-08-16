@@ -30,10 +30,7 @@ router.get('/', async (req, res) => {
         image: pokemonData.sprites.other["official-artwork"].front_default,
         types: pokemonData.types.map(t => t.type.name),
         hp: pokemonData.stats.find(s => s.stat.name === "hp").base_stat,
-        attack: {
-            name: moveData.name,
-            damage: moveData.power ?? 0
-        }
+        attack: moveData.power
     };
 
     return obj;

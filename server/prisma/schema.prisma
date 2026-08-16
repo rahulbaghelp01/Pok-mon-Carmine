@@ -8,6 +8,7 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
+  gamingId String   @unique
   username String @unique
   password String
   email    String @unique
@@ -19,6 +20,7 @@ model User {
 model Pokemon {
   id     Int    @id
   name   String @unique
+  image  String
   type   String
   hp     Int
   attack Int
