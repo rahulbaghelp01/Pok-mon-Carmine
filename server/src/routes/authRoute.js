@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import pkg from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { customAlphabet } from "nanoid";
+
 
 const { PrismaClient } = pkg;
 
@@ -23,11 +25,11 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const pokemons = await prisma.pokemon.findMany({
-  where: {
-    id: {
-      in: [1, 4, 7]
+    where: {
+      id: {
+        in: [1, 4, 7]
+      }
     }
-  }
   });
 
   res.json(pokemons);
@@ -36,21 +38,62 @@ router.get("/", async (req, res) => {
 
 // POST request for validating the token
 
-router.post("/validate", (req, res) => {
+router.post("/register", async (req, res) => {
+    const { username, email, password, pokemonId } = req.body;
 
-    const {authorization} = req.headers;
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            OR: [
+                { email: email },
+                { username: username }
+            ]
+        }
+    });
 
-    if(!authorization) {
-        return res.status(401).json({error: "Authorization token missing"});
+    if (existingUser) {
+        return res.status(409).json({
+            message: "The user with this name or email already exists. Please login."
+        });
     }
 
-});
+    const hashedPassword = await bcrypt.hash(password, 10);
 
+    const generateGameId = customAlphabet("0123456789", 12);
+    const gamingId = Number(generateGameId());
 
-// POST request for registering a user
+    const user = await prisma.user.create({
+        data: {
+            gamingId,
+            username,
+            password: hashedPassword,
+            email
+        }
+    });
 
-router.post("/register", async (req, res) => {
+    await prisma.userPokemon.create({
+        data: {
+            userId: user.id,
+            pokemonId
+        }
+    });
 
+    const token = jwt.sign(
+        {
+            userId: user.id,
+            gamingId: user.gamingId,
+            username: user.username,
+            email: user.email
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "7d"
+        }
+    );
+
+    res.status(201).json({
+        message: "User registered successfully",
+        token
+    });
 });
 
 
@@ -64,4 +107,3 @@ router.post("/login", (req, res) => {
 export default router;
 
 
- 
