@@ -4,12 +4,24 @@ const authMiddleware = (req, res, next) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-        return res.status(401).json({ error: "Authorization token missing" });
+        return res.status(401).json({
+            error: "Authorization token missing"
+        });
     }
 
     const token = authorization.split(" ")[1];
 
-    jwt.verify(token,process.env.JWT_SECRET,(err,decoded)=>{});
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.user = decoded;
+        next();
+
+    } catch (err) {
+        return res.status(401).json({
+            error: "Invalid token"
+        });
+    }
 };
 
 export default authMiddleware;
