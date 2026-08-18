@@ -1,0 +1,29 @@
+
+//Function to get the pokemon data for the registration page
+export async function getPokemons() {
+    const response = await fetch("http://localhost:6969/auth")
+
+    const data = await response.json();
+    
+    return {
+        ok:response.ok,
+        data
+    }
+}
+
+// Function to validate the token
+export async function validateToken() {
+    const response = await fetch("http://localhost:6969/auth/validate", {
+        method: "POST",
+        headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    });
+
+    const data = await response.json();
+
+    return {
+        ok: response.ok,
+        data
+    };
+}
