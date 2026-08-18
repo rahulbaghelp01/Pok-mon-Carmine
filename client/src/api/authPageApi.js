@@ -27,3 +27,12 @@ export async function validateToken() {
         data
     };
 }
+
+
+// Function to register a new user
+export async function register() {
+    
+     
+
+
+}

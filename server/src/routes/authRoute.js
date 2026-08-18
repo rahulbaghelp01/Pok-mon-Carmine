@@ -6,7 +6,8 @@ import "dotenv/config";
 import pkg from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { customAlphabet } from "nanoid";
-import authMiddleware from "../middleware/authMiddleware";
+import authMiddleware from "../middleware/authMiddleware.js";
+ 
 
 
 const { PrismaClient } = pkg;
