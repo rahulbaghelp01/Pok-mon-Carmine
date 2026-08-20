@@ -10,7 +10,7 @@ function Registration() {
     const [passwordError, setPasswordError] = useState(false);
 
     const inputStyle =
-        "border border-[var(--gold)] w-80 h-12 bg-[image:var(--paper)] px-4 outline-none transition-all duration-300 hover:border-white focus:border-white hover:shadow-md hover:-translate-y-0.5 rounded";
+        "border border-[var(--gold)] w-60 h-10 bg-[image:var(--paper)] px-4 outline-none transition-all duration-300 hover:border-white focus:border-white hover:shadow-md hover:-translate-y-0.5 rounded";
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -49,7 +49,7 @@ function Registration() {
     return (
         <div
             className="
-                rounded w-[60vw]
+                rounded w-[90%] mx-auto my-8 h-auto
                 bg-[image:var(--primary)]
                 m-15 mx-10 px
                 shadow-2xl
@@ -63,18 +63,18 @@ function Registration() {
                     <section className="font-cinzel h-full">
                         <form
                             onSubmit={handleLogin}
-                            className="relative h-full flex flex-col items-center py-25 gap-8"
+                            className="relative flex flex-col h-full items-center pt-10 pb-15 gap-6"
                         >
-                            <div className="flex flex-col items-center gap-6">
-                                <p className="text-3xl text-[var(--white)]">
+                            <div className="flex flex-col items-center gap-1">
+                                <p className="text-2xl text-[var(--white)] md:text-3xl">
                                     Continue your journey.
                                 </p>
 
                                 <p
                                     className={
                                         passwordError
-                                            ? "text-red-500 font-cormorant text-lg"
-                                            : "text-[var(--white)]/80 font-cormorant text-lg"
+                                            ? "text-red-500 font-cormorant text-base"
+                                            : "text-[var(--white)]/80 font-cormorant text-base md:text-lg"
                                     }
                                 >
                                     {passwordError
@@ -92,6 +92,7 @@ function Registration() {
                                 "
                             >
                                 <input
+                                    required
                                     onChange={(e) =>
                                         setIdentifier(e.target.value)
                                     }
@@ -102,6 +103,7 @@ function Registration() {
                                 />
 
                                 <input
+                                    required
                                     value={password}
                                     onChange={(e) =>
                                         setPassword(e.target.value)
@@ -112,6 +114,7 @@ function Registration() {
                                 />
 
                                 <input
+                                    required
                                     value={confirmPassword}
                                     onChange={(e) =>
                                         setConfirmPassword(e.target.value)
@@ -127,7 +130,7 @@ function Registration() {
                                 className="
                                     bg-[var(--gold)]
                                     text-[var(--black)]
-                                    p-2 px-8
+                                    p-2 px-4
                                     rounded
                                     border border-[var(--gold)]
                                     hover:border-black
@@ -137,24 +140,27 @@ function Registration() {
                                     hover:cursor-pointer
                                     transition-all duration-300
                                     w-40
+                                    text-sm
                                 "
                             >
                                 Log In
                             </button>
 
-                            <div className="absolute bottom-6 left-6 right-6 flex justify-between">
-                                <p className="text-[var(--white)] opacity-80">
+                            <div className="absolute md:bottom-4 md:left-4 md:right-4 bottom-3 left-3 right-3 flex justify-between">
+                                <p className="text-[var(--white)] text-xs md:text-base opacity-80">
                                     Not a trainer yet?
                                 </p>
 
                                 <button
                                     className="
                                         text-[var(--gold)]
-                                        transition-all duration-300
-                                        hover:text-[var(--white)]
-                                        hover:underline
-                                        underline-offset-4
-                                        hover:cursor-pointer
+                                    transition-all duration-300
+                                    hover:text-[var(--white)]
+                                    hover:underline
+                                    underline-offset-4
+                                    hover:cursor-pointer
+                                    text-xs
+                                    md:text-base
                                     "
                                     onClick={handleRegisterClick}
                                 >
@@ -165,21 +171,21 @@ function Registration() {
                     </section>
                 </div>
             ) : (
-                <section className="font-cinzel">
+                <section className="h-full font-cinzel">
                     <form
                         onSubmit={handleRegister}
-                        className="relative flex flex-col items-center py-25 gap-8"
+                        className="relative flex flex-col h-full items-center pt-10 pb-15 gap-6"
                     >
-                        <div className="flex flex-col items-center gap-2">
-                            <p className="text-3xl text-[var(--white)]">
+                        <div className="flex flex-col items-center gap-1">
+                            <p className="text-2xl text-[var(--white)] md:text-3xl">
                                 Start your journey.
                             </p>
 
                             <p
                                 className={
                                     passwordError
-                                        ? "text-red-500 font-cormorant text-lg"
-                                        : "text-[var(--white)]/80 font-cormorant text-lg"
+                                        ? "text-red-500 font-cormorant text-base md:text-lg"
+                                        : "text-[var(--white)]/80 font-cormorant text-base md:text-lg"
                                 }
                             >
                                 {passwordError
@@ -197,6 +203,7 @@ function Registration() {
                             "
                         >
                             <input
+                                required
                                 value={username}
                                 onChange={(e) =>
                                     setUsername(e.target.value)
@@ -207,6 +214,7 @@ function Registration() {
                             />
 
                             <input
+                                required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 type="email"
@@ -215,6 +223,7 @@ function Registration() {
                             />
 
                             <input
+                            required
                                 value={password}
                                 onChange={(e) =>
                                     setPassword(e.target.value)
@@ -225,6 +234,7 @@ function Registration() {
                             />
 
                             <input
+                            required
                                 value={confirmPassword}
                                 onChange={(e) =>
                                     setConfirmPassword(e.target.value)
@@ -239,23 +249,25 @@ function Registration() {
                             type="submit"
                             className="
                                 bg-[var(--gold)]
-                                text-[var(--black)]
-                                p-2 px-8
-                                rounded
-                                border border-[var(--gold)]
-                                hover:border-black
-                                hover:text-[var(--white)]
-                                hover:-translate-y-1
-                                hover:brightness-110
-                                hover:cursor-pointer
-                                transition-all duration-300
+                                    text-[var(--black)]
+                                    p-2 px-4
+                                    rounded
+                                    border border-[var(--gold)]
+                                    hover:border-black
+                                    hover:text-[var(--white)]
+                                    hover:-translate-y-1
+                                    hover:brightness-110
+                                    hover:cursor-pointer
+                                    transition-all duration-300
+                                    w-40
+                                    text-sm
                             "
                         >
                             Create trainer
                         </button>
 
-                        <div className="absolute bottom-6 left-6 right-6 flex justify-between">
-                            <p className="text-[var(--white)] opacity-80">
+                        <div className="absolute md:bottom-4 md:left-4 md:right-4 bottom-3 left-3 right-3 flex justify-between">
+                            <p className="text-[var(--white)] text-xs md:text-base opacity-80">
                                 Already a trainer?
                             </p>
 
@@ -267,6 +279,8 @@ function Registration() {
                                     hover:underline
                                     underline-offset-4
                                     hover:cursor-pointer
+                                    text-xs
+                                    md:text-base
                                 "
                                 onClick={handleRegisterClick}
                             >

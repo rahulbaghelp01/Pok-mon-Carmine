@@ -7,7 +7,7 @@ import pkg from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { customAlphabet } from "nanoid";
 import authMiddleware from "../middleware/authMiddleware.js";
- 
+
 
 
 const { PrismaClient } = pkg;
@@ -52,6 +52,14 @@ router.post("/validate", authMiddleware, (req, res) => {
 router.post("/register", async (req, res) => {
     const { username, email, password, pokemonId } = req.body;
 
+    if (!username || !email || !password || pokemonId === undefined) {
+        return res.status(400).json({
+            message: "All fields are required."
+        });
+    }
+
+    
+
     const existingUser = await prisma.user.findFirst({
         where: {
             OR: [
@@ -71,6 +79,13 @@ router.post("/register", async (req, res) => {
 
     const generateGameId = customAlphabet("0123456789", 12);
     const gamingId = Number(generateGameId());
+
+
+    if (![1, 4, 7].includes(Number(pokemonId))) {
+        return res.status(400).json({
+            message: "Invalid starter Pokemon"
+        });
+    }
 
     const user = await prisma.user.create({
         data: {
@@ -140,7 +155,8 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({
         userId: user.id,
         gamingId: user.gamingId,
-        username: user.username
+        username: user.username,
+        email: user.email
     },
         process.env.JWT_SECRET,
         {

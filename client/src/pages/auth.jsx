@@ -4,7 +4,7 @@ import StarterPokemon from "../components/Starter-pokemon";
 
 function AuthPage() {
     return (
-        <main className="flex min-h-screen bg-[var(--brown)]">
+        <main className="flex flex-col min-h-screen bg-[var(--brown)] lg:flex-row overflow-auto lg:overflow-hidden">
             <StarterPokemon />
             <Registration />
         </main>

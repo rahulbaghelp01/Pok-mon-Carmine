@@ -5,7 +5,7 @@ import Balbasauras from "../assets/pokemon-images/balbasauras.jpg"
 import Squirtle from "../assets/pokemon-images/squirtle.jpg"
 
 import { useState } from "react"
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { lockSelection } from "../store/pokemonSlice.js"
 
 
@@ -14,42 +14,58 @@ function StarterPokemon() {
 
     const dispatch = useDispatch();
 
-    const handleChooseOne = ()=>{
-        dispatch(lockSelection(true))
-    } 
+    const selectionLocked = useSelector((state) => state.pokemon.selectionLocked);
 
     const pokemons = useSelector((state) => state.pokemon.pokemons);
 
-    const handleBorder = (id) => {
-        if(pokemons[0]===id){
-            return `border-4 border-green-200`
+    const handleChooseOne = () => {
+        if (pokemons[0]) {
+            dispatch(lockSelection(true))
+            return
         }
-        return ""
+        return
     }
 
 
 
+    const handleBorder = (id) => {
+        if (pokemons[0] === id) {
+            return "border-4 border-green-200";
+        }
+
+        return "border-4 border-transparent";
+    };
+
+
+
     return (
-        <div className="font-cinzel bg-[var(--brown)] w-[60vw] flex flex-col pt-25 items-center gap-8  pl-10">
-            <div className="flex flex-col items-center gap-2  ">
-                <p className="text-[var(--white)] text-3xl ">
+        <div className="font-cinzel bg-[var(--brown)] w-[100vw] flex flex-col pt-10 items-center gap-8 p-2">
+            <div className="flex flex-col items-center gap-1 justify-center">
+                <p className="text-[var(--white)] text-xl max-[320px]:text-sm md:text-3xl">
                     Everything begins with a choice
                 </p>
-                <p className="text-[var(--white)]/80 text- xl font-cormorant text-lg">
+                <p className="text-[var(--white)]/80 text-sm font-cormorant text-base md:text-lg">
                     Choose your first companion and begin your journey.
                 </p>
             </div>
-
+            <div className="w-full overflow-x-auto snap-x snap-mandatory">
             <div className=" flex justify-around items-center w-200 h-100">
+                <div className="snap-center shrink-0">
                 <Card className={handleBorder(4)} id={4} name="Charmandar" image={Charmander} />
+                </div>
+                <div className="snap-center shrink-0">
                 <Card className={handleBorder(1)} id={1} name="Balbasauras" />
+                </div>
+                <div className="snap-center shrink-0">
                 <Card className={handleBorder(7)} id={7} name="Squirtle" />
+                </div>
+            </div>
             </div>
             <button
                 type="submit"
                 onClick={handleChooseOne}
-                className="
-                bg-red-500
+                className={`${selectionLocked ? "bg-green-500" : "bg-red-500"} 
+                
                 text-[var(--black)]
                 p-2 px-8
                 border border-[var(--gold)]
@@ -60,7 +76,7 @@ function StarterPokemon() {
                 hover:cursor-pointer
                 transition-all duration-300
                 rounded
-                "
+                `}
             >
                 Choose One
             </button>
