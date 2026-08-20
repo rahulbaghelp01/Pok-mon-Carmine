@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     pokemons:[],
-    deck: []
+    deck: [],
+    selectionLocked : false
 }
 
 
@@ -13,9 +14,17 @@ const pokemonSlice = createSlice({
     reducers: {
         addPokemon: (state, action) => {
             state.pokemons.push(action.payload)
+        },
+        addSelectedPokemon: (state,action)=>{
+            state.pokemons[0] = action.payload
+        },
+        lockSelection: (state) => {
+            state.selectionLocked = true;
         }
     }
 });
 
+
+export const {addPokemon,addSelectedPokemon,lockSelection} = pokemonSlice.actions
 
 export default pokemonSlice.reducer

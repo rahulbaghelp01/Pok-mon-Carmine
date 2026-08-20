@@ -1,11 +1,27 @@
 
 
 import frame from "../assets/svg-border/frame.svg"
+import { addSelectedPokemon } from "../store/pokemonSlice.js";
+import { useDispatch,useSelector } from "react-redux";
 
-function Card({ name,image,type, hp, attack }) {
+function Card({className,id,name,image,type, hp, attack }) {
+
+     const dispatch = useDispatch();
+     const selectionLocked = useSelector((state) => state.pokemon.selectionLocked);
+
+    const handleSelected = ()=>{
+        if (selectionLocked){
+            return
+        } 
+        dispatch(addSelectedPokemon(id))
+        console.log(`saved ${id}`)
+    }
+
+    
+     
 
     return (
-        <div className="h-90 w-60 p-2 bg-[var(--gold)] rounded">
+        <div onClick={handleSelected} className={`${className} hover:cursor-pointer h-90 w-60 p-2 bg-[var(--gold)] rounded`}>
             <div className="relative h-full w-full bg-[image:var(--paper)]">
 
                 <div className="h-[60%] w-full relative">
