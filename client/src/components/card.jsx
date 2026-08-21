@@ -23,7 +23,7 @@ function Card({ className, id, name, image, type, hp, attack }) {
     return (
         <div
     onClick={handleSelected}
-    className={`${className} transition-colors duration-300 hover:cursor-pointer h-90 w-60 lg:h-80 lg:w-52 p-2 bg-[var(--gold)] rounded`}
+    className={`${className} transition-colors duration-300 hover:cursor-pointer h-90 w-60 lg:h-60 lg:w-45 xl:h-90 xl:w-60 p-2 bg-[var(--gold)] rounded`}
 >
     <div className="relative h-full w-full bg-[image:var(--paper)]">
 

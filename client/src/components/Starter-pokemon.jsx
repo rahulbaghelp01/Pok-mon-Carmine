@@ -39,17 +39,17 @@ function StarterPokemon() {
 
 
     return (
-        <div className="font-cinzel bg-[var(--brown)] w-[100vw] flex flex-col pt-10 items-center gap-8 p-2">
+        <div className="font-cinzel bg-[var(--brown)] w-[100vw] flex flex-col pt-10 lg:w-[60vw] 2xl:pt-25 xl:gap-8 items-center lg:gap-2 gap-8 p-2">
             <div className="flex flex-col items-center gap-1 justify-center">
-                <p className="text-[var(--white)] text-xl max-[320px]:text-sm md:text-3xl">
+                <p className="text-[var(--white)] xl:text-3xl text-xl max-[320px]:text-sm md:text-3xl">
                     Everything begins with a choice
                 </p>
                 <p className="text-[var(--white)]/80 text-sm font-cormorant text-base md:text-lg">
                     Choose your first companion and begin your journey.
                 </p>
             </div>
-            <div className="w-full overflow-x-auto snap-x snap-mandatory">
-            <div className=" flex justify-around items-center w-200 h-100">
+            <div className="w-full overflow-x-auto snap-x snap-mandatory   lg:overflow-hidden">
+            <div className=" flex justify-around items-center lg:w-[60vw] lg:gap-2    lg:w-full w-200 h-100">
                 <div className="snap-center shrink-0">
                 <Card className={handleBorder(4)} id={4} name="Charmandar" image={Charmander} />
                 </div>
