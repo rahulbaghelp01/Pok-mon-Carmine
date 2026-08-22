@@ -48,10 +48,10 @@ function Registration() {
 
     return (
         <div
-            className="lg:p-x
+            className="lg:p-x  
                 rounded w-[90%] lg:w-[40vw] mx-auto my-8 h-auto
                 bg-[image:var(--primary)]
-                m-15 mx-10 px
+                
                 shadow-2xl
                 border border-[var(--gold)]/20
                 hover:shadow-3xl
@@ -63,7 +63,7 @@ function Registration() {
                     <section className="font-cinzel h-full">
                         <form
                             onSubmit={handleLogin}
-                            className="relative flex flex-col h-full items-center pt-10 pb-15 2xl:pt-30 2xl:gap-10 2xl:pb-0 gap-6 lg:pb-0 lg:gap-8  xl:pt-20 xl:gap-10"
+                            className="relative flex flex-col h-full items-center pt-10 pb-15 2xl:pt-30 2xl:gap-10 xl:pt-30 2xl:pb-0 gap-6 lg:pb-0 lg:gap-8    xl:gap-10"
                         >
                             <div className="flex flex-col items-center gap-1">
                                 <p className="text-2xl text-[var(--white)] xl:text-3xl  lg:text-2xl  ">
@@ -174,7 +174,7 @@ function Registration() {
                 <section className="h-full font-cinzel">
                     <form
                         onSubmit={handleRegister}
-                        className="relative flex flex-col h-full items-center 2xl:pt-25 2xl:gap-10 2xl:pb-0 pt-10 pb-15 lg:pb-0 lg:pt-20 xl:pt-20   gap-6"
+                        className="relative flex flex-col h-full items-center 2xl:pt-25 2xl:gap-10 2xl:pb-0 pt-10 xl:pt-25 xl:gap-10 pb-15 lg:pb-0 lg:pt-20 xl:pt-20   gap-6"
                     >
                         <div className="flex flex-col items-center gap-1">
                             <p className="text-2xl text-[var(--white)] md:text-3xl xl:text-3xl lg:text-2xl">

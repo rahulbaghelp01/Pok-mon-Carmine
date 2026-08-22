@@ -39,7 +39,7 @@ function StarterPokemon() {
 
 
     return (
-        <div className="font-cinzel bg-[var(--brown)] w-[100vw] flex flex-col pt-10 lg:w-[60vw] 2xl:pt-25 xl:gap-8 items-center lg:gap-2 gap-8 p-2">
+        <div className="font-cinzel bg-[var(--brown)] w-[100vw] flex flex-col   pt-10 lg:w-[60vw] 2xl:pt-25 xl:pt-25 xl:gap-8 items-center lg:gap-2 gap-8 p-2">
             <div className="flex flex-col items-center gap-1 justify-center">
                 <p className="text-[var(--white)] xl:text-3xl text-xl max-[320px]:text-sm md:text-3xl">
                     Everything begins with a choice
