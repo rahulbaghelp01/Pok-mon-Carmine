@@ -8,7 +8,7 @@ export default function CardBack({ className = "", onClick }) {
       viewBox="0 0 240 360"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
-      className={`${className} transition-colors duration-300 hover:cursor-pointer h-90 w-60 lg:h-60 lg:w-45 xl:h-90 xl:w-60 rounded block box-border`}
+      className={`${className} transition-colors duration-300 hover:cursor-pointer h-90 w-60 lg:h-60 lg:w-45 xl:h-90 xl:w-60  rounded block box-border`}
     >
       <defs>
         <radialGradient id="bg" cx="50%" cy="50%" r="75%">
@@ -62,7 +62,7 @@ export default function CardBack({ className = "", onClick }) {
         width="240"
         height="360"
         fill="url(#bg)"
-        rx="8"
+        
       />
 
       {/* Silver Outer Border Frame */}
@@ -71,7 +71,7 @@ export default function CardBack({ className = "", onClick }) {
         y="2"
         width="236"
         height="356"
-        rx="6"
+        
         fill="none"
         stroke="url(#silver)"
         strokeWidth="3"
@@ -83,7 +83,7 @@ export default function CardBack({ className = "", onClick }) {
         y="10"
         width="220"
         height="340"
-        rx="4"
+        
         fill="none"
         stroke="#c9c9cd"
         strokeOpacity="0.3"

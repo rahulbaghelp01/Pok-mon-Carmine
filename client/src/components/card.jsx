@@ -2,8 +2,11 @@ import frame from "../assets/svg-border/frame.svg";
 import { addSelectedPokemon } from "../store/pokemonSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import CardBack from "../components/POKEMONCARD-backside";
+import { forwardRef } from "react";
 
-function Card({ className, id, name, image, type, hp, attack }) {
+
+const Card = forwardRef(
+    ({ className, id, name, image, type, hp, attack,onMouseEnter }, ref) => {
     const dispatch = useDispatch();
 
     const selectionLocked = useSelector(
@@ -18,9 +21,9 @@ function Card({ className, id, name, image, type, hp, attack }) {
     };
 
     return (
-        <div className="[perspective:1000px]">
+        <div  onMouseEnter={onMouseEnter} className="[perspective:1000px]">
 
-            <div
+            <div ref={ref}
                 className="
                     relative
                     h-90 w-60
@@ -44,6 +47,7 @@ function Card({ className, id, name, image, type, hp, attack }) {
                         rounded
                         hover:cursor-pointer
                         [backface-visibility:hidden]
+                        [transform:rotateY(180deg)]
                     `}
                 >
                     <div className="relative h-full w-full bg-[image:var(--paper)]">
@@ -84,7 +88,7 @@ function Card({ className, id, name, image, type, hp, attack }) {
                 <div
                     className="
                         absolute inset-0
-                        [transform:rotateY(180deg)]
+                        [transform:rotateY(0deg)]
                         [backface-visibility:hidden]
                     "
                 >
@@ -94,6 +98,6 @@ function Card({ className, id, name, image, type, hp, attack }) {
             </div>
         </div>
     );
-}
+})
 
 export default Card;
