@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 
 
 const Card = forwardRef(
-    ({ className, id, name, image, type, hp, attack,onMouseEnter }, ref) => {
+    ({ className,onMouseEnter,pokemonsObject}, ref) => {
     const dispatch = useDispatch();
 
     const selectionLocked = useSelector(
@@ -16,8 +16,8 @@ const Card = forwardRef(
     const handleSelected = () => {
         if (selectionLocked) return;
 
-        dispatch(addSelectedPokemon(id));
-        console.log(`saved ${id}`);
+        dispatch(addSelectedPokemon(pokemonsObject.id));
+        console.log(`saved ${pokemonsObject.id}`);
     };
 
     return (
@@ -58,26 +58,27 @@ const Card = forwardRef(
                                 <img
                                     src={frame}
                                     className="absolute left-[-42px] top-[-4px] lg:left-[-35px] lg:top-[-3px]"
+
                                 />
                             </div>
 
                             <p className="absolute top-0 left-1 text-[var(--gold)] font-bold lg:text-sm">
-                                {name}
+                                {pokemonsObject.name}
                             </p>
 
                             <img
                                 className="w-full h-full object-cover"
-                                src={image}
-                                alt={`${name} img`}
+                                src={pokemonsObject.image}
+                                alt={`${pokemonsObject} img`}
                             />
 
                         </div>
 
                         <div className="flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-xs">
-                            <p>Name: {name}</p>
-                            <p>Type: {type}</p>
-                            <p>HP: {hp}</p>
-                            <p>Attack: {attack}</p>
+                            <p>Name: {pokemonsObject.name}</p>
+                            <p>Type: {pokemonsObject.type}</p>
+                            <p>HP: {pokemonsObject.hp}</p>
+                            <p>Attack: {pokemonsObject.attack}</p>
                         </div>
 
                     </div>

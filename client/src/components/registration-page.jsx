@@ -1,4 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { validateToken, register } from "../api/authPageApi";
+import { useNavigate } from "react-router-dom";
+
+
+
+
 
 function Registration() {
     const [isRegistered, setIsRegistered] = useState(false);
@@ -8,6 +14,9 @@ function Registration() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [identifier, setIdentifier] = useState("");
     const [passwordError, setPasswordError] = useState(false);
+
+    const navigate = useNavigate();
+
 
     const inputStyle =
         "border border-[var(--gold)] w-60 h-10 bg-[image:var(--paper)] px-4 outline-none transition-all duration-300 hover:border-white focus:border-white hover:shadow-md hover:-translate-y-0.5 rounded";
@@ -24,8 +33,6 @@ function Registration() {
         setPasswordError(false);
         console.log("Passwords match");
 
-        const isRegistered = await register(username,email,password)
-
     };
 
     const handleLogin = (e) => {
@@ -41,10 +48,29 @@ function Registration() {
         console.log("Passwords match");
     };
 
-    const handleRegisterClick = (e) => {
+    const handleFormType = (e) => {
         e.preventDefault();
         setIsRegistered(!isRegistered);
     };
+
+
+    useEffect(() => {
+
+        async function tokenValidation() {
+            const response = await validateToken();
+
+            if (!response.ok) return
+
+            if (response.data.message) {
+                navigate("/");
+            }
+        }
+
+        tokenValidation();
+
+    }, [navigate]);
+
+
 
     return (
         <div
@@ -162,7 +188,7 @@ function Registration() {
                                     text-xs
                                     md:text-base lg:text-sm
                                     "
-                                    onClick={handleRegisterClick}
+                                    onClick={handleFormType}
                                 >
                                     Create an account
                                 </button>
@@ -223,7 +249,7 @@ function Registration() {
                             />
 
                             <input
-                            required
+                                required
                                 value={password}
                                 onChange={(e) =>
                                     setPassword(e.target.value)
@@ -234,7 +260,7 @@ function Registration() {
                             />
 
                             <input
-                            required
+                                required
                                 value={confirmPassword}
                                 onChange={(e) =>
                                     setConfirmPassword(e.target.value)
@@ -282,7 +308,7 @@ function Registration() {
                                     text-xs
                                     md:text-base lg:text-sm
                                 "
-                                onClick={handleRegisterClick}
+                                onClick={handleFormType}
                             >
                                 Log In
                             </button>

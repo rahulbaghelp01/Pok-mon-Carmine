@@ -4,12 +4,20 @@ import Charmander from "../assets/pokemon-images/Charmander.jpg";
 import Balbasauras from "../assets/pokemon-images/balbasauras.jpg";
 import Squirtle from "../assets/pokemon-images/squirtle.jpg";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { lockSelection } from "../store/pokemonSlice.js";
 import gsap from "gsap";
 
+import { getPokemons } from "../api/authPageApi.js";
+
 function StarterPokemon() {
+
+    const [charmander, setCharmander] = useState({});
+    const [bulbasaur, setBulbasaur] = useState({});
+    const [squirtle, setSquirtle] = useState({})
+
+
     const dispatch = useDispatch();
 
     const selectionLocked = useSelector(
@@ -44,17 +52,17 @@ function StarterPokemon() {
             duration: 0.2,
             ease: "power2.out",
         })
-        .to(cardRef.current, {
-            rotationY: 110,
-            duration: 0.65,
-            ease: "power3.in",
-        })
-        .to(cardRef.current, {
-            rotationY: 180,
-            z: 0,
-            duration: 0.75,
-            ease: "power3.out",
-        });
+            .to(cardRef.current, {
+                rotationY: 110,
+                duration: 0.65,
+                ease: "power3.in",
+            })
+            .to(cardRef.current, {
+                rotationY: 180,
+                z: 0,
+                duration: 0.75,
+                ease: "power3.out",
+            });
     };
 
     const handleChooseOne = () => {
@@ -73,6 +81,48 @@ function StarterPokemon() {
 
         return "border-4 border-transparent";
     };
+
+
+
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const response = await getPokemons();
+
+                if (!response.ok) {
+                    alert("Failed to fetch Pokémon");
+                    return;
+                }
+
+                const data = response.data;
+
+                setBulbasaur(
+                    data.find(
+                        pokemon => pokemon.name.toLowerCase() === "bulbasaur"
+                    )
+                );
+
+                setCharmander(
+                    data.find(
+                        pokemon => pokemon.name.toLowerCase() === "charmander"
+                    )
+                );
+
+                setSquirtle(
+                    data.find(
+                        pokemon => pokemon.name.toLowerCase() === "squirtle"
+                    )
+                );
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        loadData();
+    }, []);
+
 
     return (
         <div className="font-cinzel bg-[var(--brown)] w-[100vw] flex flex-col pt-10 lg:w-[60vw] 2xl:pt-25 xl:pt-25 xl:gap-8 items-center lg:gap-2 gap-8 p-2">
@@ -103,10 +153,8 @@ function StarterPokemon() {
                                     hasFlipped1
                                 )
                             }
-                            className={handleBorder(4)}
-                            id={4}
-                            name="Charmandar"
-                            image={Charmander}
+                            className={handleBorder(1)}
+                            pokemonsObject={bulbasaur}
                         />
                     </div>
 
@@ -120,10 +168,8 @@ function StarterPokemon() {
                                     hasFlipped2
                                 )
                             }
-                            className={handleBorder(1)}
-                            id={1}
-                            name="Balbasauras"
-                            image={Balbasauras}
+                            className={handleBorder(4)}
+                            pokemonsObject={charmander}
                         />
                     </div>
 
@@ -138,9 +184,7 @@ function StarterPokemon() {
                                 )
                             }
                             className={handleBorder(7)}
-                            id={7}
-                            name="Squirtle"
-                            image={Squirtle}
+                            pokemonsObject={squirtle}
                         />
                     </div>
 
