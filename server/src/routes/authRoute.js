@@ -78,7 +78,7 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const generateGameId = customAlphabet("0123456789", 12);
-    const gamingId = Number(generateGameId());
+    const gamingId =  generateGameId() 
 
 
     if (![1, 4, 7].includes(Number(pokemonId))) {

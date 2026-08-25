@@ -74,7 +74,7 @@ const Card = forwardRef(
 
                         </div>
 
-                        <div className="flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-xs">
+                        <div className="font-bold flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-xs">
                             <p>Name: {pokemonsObject.name}</p>
                             <p>Type: {pokemonsObject.type}</p>
                             <p>HP: {pokemonsObject.hp}</p>

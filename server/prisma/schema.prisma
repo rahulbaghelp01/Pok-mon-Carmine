@@ -8,7 +8,7 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
-  gamingId Int   @unique
+  gamingId String @unique
   username String @unique
   password String
   email    String @unique

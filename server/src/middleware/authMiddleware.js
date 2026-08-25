@@ -1,15 +1,17 @@
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
-    const { Authorization } = req.headers;
+    const { authorization  } = req.headers;
 
-    if (!Authorization) {
+  
+
+    if (!authorization) {
         return res.status(401).json({
-            error: "Authorization token missing"
+            error: "authorization token missing"
         });
     }
 
-    const token = Authorization.split(" ")[1];
+    const token = authorization.split(" ")[1];
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

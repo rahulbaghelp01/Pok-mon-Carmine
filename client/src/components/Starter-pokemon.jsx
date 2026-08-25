@@ -1,9 +1,5 @@
 import Card from "./card.jsx";
 
-import Charmander from "../assets/pokemon-images/Charmander.jpg";
-import Balbasauras from "../assets/pokemon-images/balbasauras.jpg";
-import Squirtle from "../assets/pokemon-images/squirtle.jpg";
-
 import { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { lockSelection } from "../store/pokemonSlice.js";

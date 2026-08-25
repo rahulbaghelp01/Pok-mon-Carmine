@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { validateToken, register } from "../api/authPageApi";
+import { validateToken, register, login } from "../api/authPageApi";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 
 
 
@@ -13,44 +13,103 @@ function Registration() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [identifier, setIdentifier] = useState("");
-    const [passwordError, setPasswordError] = useState(false);
+
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+
+
 
     const navigate = useNavigate();
+
+
+    const pokemons = useSelector(
+        (state) => state.pokemon.pokemons
+    );
 
 
     const inputStyle =
         "border border-[var(--gold)] w-60 h-10 bg-[image:var(--paper)] px-4 outline-none transition-all duration-300 hover:border-white focus:border-white hover:shadow-md hover:-translate-y-0.5 rounded";
 
+
+    const handleRegistrationValidation = () => {
+        if (!pokemons[0]) {
+            setErrorMessage("Please Select a Pokemon")
+            return false
+        }
+
+        if (!username || username.length > 20 || username.length < 3) {
+            setErrorMessage("Username must be between 3 and 20 characters.");
+            return false;
+        }
+
+        if (!email) {
+            setErrorMessage("Please enter your email.");
+            return false;
+        }
+
+        if (!password) {
+            setErrorMessage("Password is empty");
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage("Passwords Dont Match") 
+            return false;
+        }
+
+        setErrorMessage("")
+        return true
+    }
+
     const handleRegister = async (e) => {
         e.preventDefault();
+        if (!handleRegistrationValidation()) return;
 
-        if (password !== confirmPassword) {
-            setPasswordError(true);
-            console.log("Passwords do not match");
-            return;
+        const response = await register(username, email, password, pokemons[0]);
+
+        if(response.status === 409){
+            setErrorMessage("The user Already exists")
+            return
         }
 
-        setPasswordError(false);
-        console.log("Passwords match");
-
+        if (response.ok) {
+            navigate("/")
+        }
+        
+        setErrorMessage("")
+        
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
-            setPasswordError(true);
-            console.log("Passwords do not match");
-            return;
+        if(password !== confirmPassword){
+            setErrorMessage("Please Confirm Password")
+            return
+        }
+        
+
+        const response = await login(identifier, password)
+
+        if(response.status === 401 ){
+            setErrorMessage("Invalid Password or username/email")
+            return
         }
 
-        setPasswordError(false);
-        console.log("Passwords match");
+        if (response.ok) {
+            navigate("/")
+        }
+
+        setErrorMessage("")
+        return
+
     };
 
     const handleFormType = (e) => {
         e.preventDefault();
         setIsRegistered(!isRegistered);
+        
     };
 
 
@@ -98,13 +157,13 @@ function Registration() {
 
                                 <p
                                     className={
-                                        passwordError
+                                        errorMessage
                                             ? "text-red-500 font-cormorant text-base lg:text-lg"
                                             : "text-[var(--white)]/80 font-cormorant text-base lg:text-lg md:text-lg"
                                     }
                                 >
-                                    {passwordError
-                                        ? "The password does not match."
+                                    {errorMessage
+                                        ? errorMessage
                                         : "Log back in to your account."}
                                 </p>
                             </div>
@@ -209,13 +268,13 @@ function Registration() {
 
                             <p
                                 className={
-                                    passwordError
+                                    errorMessage
                                         ? "text-red-500 font-cormorant text-base md:text-lg lg:text-lg"
                                         : "text-[var(--white)]/80 font-cormorant text-base md:text-lg lg:text-lg"
                                 }
                             >
-                                {passwordError
-                                    ? "THE PASSWORD DOES NOT MATCH"
+                                {errorMessage
+                                    ? errorMessage
                                     : "Create your account to get started"}
                             </p>
                         </div>
