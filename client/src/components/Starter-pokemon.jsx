@@ -139,7 +139,7 @@ function StarterPokemon() {
 
                 <div className="flex justify-around items-center lg:w-full lg:gap-2 w-200 h-100">
 
-                    {/* Charmander */}
+                    
                     <div className="snap-center shrink-0">
                         <Card
                             ref={cardRef1}
@@ -153,8 +153,7 @@ function StarterPokemon() {
                             pokemonsObject={bulbasaur}
                         />
                     </div>
-
-                    {/* Bulbasaur */}
+ 
                     <div className="snap-center shrink-0">
                         <Card
                             ref={cardRef2}
