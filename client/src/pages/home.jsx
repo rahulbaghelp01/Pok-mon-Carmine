@@ -213,27 +213,29 @@ function Home() {
         duration: 1
       });
     }
+    console.log(window.innerWidth)
   }, [showCards]);
 
 
   return (
-    <main className="flex flex-col h-screen overflow-hidden gap-8">
+    <main className="flex flex-col h-screen overflow-x-hidden overflow-y-auto gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-8 xl:overflow-hidden">
       <Navbar />
 
-      <div className={`flex-1 min-h-0 flex items-center flex-col justify-center text-3xl text-[var(--white)] font-cinzel ${showCards ? "gap-1" : "gap-5"}    `}>
-        <div className="flex flex-col items-center gap-1">
-          <p className="font-cinzel text-[var(--gold)] text-4xl tracking-wide">
+      <div className={`flex-1 min-h-0 flex items-center flex-col justify-center px-3 sm:px-4 md:px-5 lg:px-6 xl:px-0 text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl text-[var(--white)] font-cinzel ${showCards ? "gap-1" : "gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-5"}`}>
+        <div className="flex max-w-full flex-col items-center gap-1 text-center">
+          <p className="font-cinzel text-[var(--gold)] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl tracking-wide">
             Add pokemon to your collection:
           </p>
-          <p className="text-[var(--white)]/70 text-lg font-cormorant">
+          <p className="text-[var(--white)]/70 text-sm sm:text-base md:text-lg lg:text-lg xl:text-lg font-cormorant">
             Discover a new companion add them to your collection
           </p>
         </div>
 
 
-        <div className={`h-[80%] w-[40%] flex flex-col items-center  justify-center ${showCards ? "m-5 gap-3" : "gap-1"}`}>
+        <div className={`h-[80%] w-full flex flex-col items-center xl:h-full xl:min-h-[28rem] justify-center  sm:h-[80%] sm:w-[96%] md:h-[80%] md:w-[88%] lg:h-[80%] lg:w-[65%] 2xl:h-[80%] 2xl:w-[100%] ${showCards ? "m-3 gap-2 sm:m-4 sm:gap-3 md:m-4 lg:m-5 xl:m-5 xl:gap-3" : "gap-1"}`}>
           {showCards ?
-            (<div className="relative flex-1 w-full ">
+            (<div className="relative flex-1 w-full overflow-x-auto overflow-y-hidden 2xl:overflow-x-hidden">
+              <div className="relative h-full min-w-[1500px] xl:min-w-0 xl:w-full">
 
 
               <Card
@@ -279,6 +281,7 @@ function Home() {
                 pokemonsObject={obj}
               />
 
+              </div>
             </div>)
             : (<Canvas
               className="flex-1 w-full"
@@ -312,7 +315,7 @@ function Home() {
 
           <button
             onClick={handleGameLogic}
-            className="bg-[var(--gold)] border border-[var(--black)]/60 text-[var(--black)] text-2xl px-8 py-4 rounded-xl font-cinzel hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:cursor-pointer">
+            className="shrink-0 bg-[var(--gold)] border border-[var(--black)]/60 text-[var(--black)] text-lg px-5 py-3 rounded-xl font-cinzel hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:cursor-pointer sm:text-xl sm:px-6 sm:py-3 md:text-xl md:px-7 md:py-4 lg:text-2xl lg:px-8 lg:py-4 xl:text-2xl xl:px-8 xl:py-4">
             CATCH POKEMON
           </button>
         </div>
