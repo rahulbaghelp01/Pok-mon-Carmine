@@ -25,7 +25,7 @@ function CameraController({ onCameraReady }) {
 function Home() {
 
   const [enableRotate, setEnableRotate] = useState(true);
-  const [intensity, setIntensity] = useState(0);
+
   const [showCards, setShowCards] = useState(false);
 
   const cameraRef = useRef(null);
@@ -63,6 +63,9 @@ function Home() {
 
 
   function handleGameLogic() {
+
+    if (showCards) return;
+
     setEnableRotate(false);
 
     const camera = cameraRef.current;
@@ -112,13 +115,7 @@ function Home() {
       .to({}, { duration: 0.25 })
       .to(light, {
         intensity: 0,
-        duration: 0.8,
-        ease: "power2.out"
-      })
-       
-      .to(light, {
-        intensity: 0,
-        duration: 0.8,
+        duration: 0.3,
         ease: "power2.out"
       })
       .to(model.scale, {
@@ -130,20 +127,15 @@ function Home() {
       })
       .call(() => {
         setShowCards(true);
+
       });
 
   }
 
-  function testCardPosition() {
-    gsap.to(cardRef1.current, {
-      x: 200,
-      y: -100,
-      duration: 1
-    });
-  }
 
 
-  const handleCardHover = (cardRef, hasFlipped) => {
+
+  const handleCardFlip = (cardRef, hasFlipped) => {
     if (hasFlipped.current) {
       return;
     }
@@ -174,10 +166,50 @@ function Home() {
 
 
   useEffect(() => {
-    if (showCards) {
+    if (showCards && cardRef1.current) {
       gsap.to(cardRef1.current, {
-        x: 200,
-        y: -100,
+        x: -625,
+        y: 0,
+        duration: 1
+      });
+    }
+
+    if (showCards && cardRef2.current) {
+      gsap.to(cardRef2.current, {
+        x: -375,
+        y: 0,
+        duration: 1
+      });
+    }
+
+    if (showCards && cardRef3.current) {
+      gsap.to(cardRef3.current, {
+        x: -125,
+        y: 0,
+        duration: 1
+      });
+    }
+
+    if (showCards && cardRef4.current) {
+      gsap.to(cardRef4.current, {
+        x: 125,
+        y: 0,
+        duration: 1
+      });
+    }
+
+    if (showCards && cardRef5.current) {
+      gsap.to(cardRef5.current, {
+        x: 375,
+        y: 0,
+        duration: 1
+      });
+    }
+
+    if (showCards && cardRef6.current) {
+      gsap.to(cardRef6.current, {
+        x: 625,
+        y: 0,
         duration: 1
       });
     }
@@ -185,49 +217,68 @@ function Home() {
 
 
   return (
-    <main className="flex flex-col h-screen overflow-hidden">
+    <main className="flex flex-col h-screen overflow-hidden gap-8">
       <Navbar />
 
-      <div className="flex-1 min-h-0 flex items-center flex-col justify-center text-3xl text-[var(--white)] font-cinzel gap-5 border border-[var(--gold)]/20">
-         <div className="flex flex-col items-center gap-1">
+      <div className={`flex-1 min-h-0 flex items-center flex-col justify-center text-3xl text-[var(--white)] font-cinzel ${showCards ? "gap-1" : "gap-5"}    `}>
+        <div className="flex flex-col items-center gap-1">
           <p className="font-cinzel text-[var(--gold)] text-4xl tracking-wide">
             Add pokemon to your collection:
           </p>
           <p className="text-[var(--white)]/70 text-lg font-cormorant">
             Discover a new companion add them to your collection
           </p>
-        </div> 
+        </div>
 
 
-        <div className={`h-[60%] w-[40%] flex flex-col items-center justify-center ${showCards ? "gap-1" : "gap-1"}`}>
+        <div className={`h-[80%] w-[40%] flex flex-col items-center  justify-center ${showCards ? "m-5 gap-3" : "gap-1"}`}>
           {showCards ?
-            (<div className="relative m-5" >
-              <Card
-                classNameTwo="absolute"
-                ref={cardRef2}
-                onMouseEnter={() =>
-                  handleCardHover(
-                    cardRef2,
-                    hasFlipped2
-                  )
-                }
+            (<div className="relative flex-1 w-full ">
 
+
+              <Card
+                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                ref={cardRef1}
+                onCardClick={() => handleCardFlip(cardRef1, hasFlipped1)}
+                pokemonsObject={obj}
+              />
+
+              <Card
+                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                ref={cardRef2}
+                onCardClick={() => handleCardFlip(cardRef2, hasFlipped2)}
+                pokemonsObject={obj}
+              />
+
+              <Card
+                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                ref={cardRef3}
+                onCardClick={() => handleCardFlip(cardRef3,hasFlipped3)}
                 pokemonsObject={obj}
               />
               <Card
-                className="absolute"
-                ref={cardRef2}
-                onMouseEnter={() =>
-                  handleCardHover(
-                    cardRef2,
-                    hasFlipped2
-                  )
-                }
-
+                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                ref={cardRef4}
+                onCardClick={() => {
+                  
+                  handleCardFlip(cardRef4, hasFlipped4)}}
                 pokemonsObject={obj}
-
-
               />
+
+              <Card
+                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                ref={cardRef5}
+                onCardClick={() => handleCardFlip(cardRef5, hasFlipped5)}
+                pokemonsObject={obj}
+              />
+
+              <Card
+                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                ref={cardRef6}
+                onCardClick={() => handleCardFlip(cardRef6, hasFlipped6)}
+                pokemonsObject={obj}
+              />
+
             </div>)
             : (<Canvas
               className="flex-1 w-full"

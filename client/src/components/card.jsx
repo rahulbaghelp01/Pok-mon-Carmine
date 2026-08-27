@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 
 
 const Card = forwardRef(
-    ({ classNameTwo,className,onMouseEnter,pokemonsObject}, ref) => {
+    ({ classNameTwo,className,onMouseEnter,onCardClick,pokemonsObject}, ref) => {
     const dispatch = useDispatch();
 
     const selectionLocked = useSelector(
@@ -21,7 +21,7 @@ const Card = forwardRef(
     };
 
     return (
-        <div  onMouseEnter={onMouseEnter} className={`${classNameTwo} [perspective:1000px]`}>
+        <div onClick={onCardClick} onMouseEnter={onMouseEnter} className={`${classNameTwo} [perspective:1000px]`}>
 
             <div ref={ref}
                 className="
