@@ -7,6 +7,7 @@ import gsap from "gsap";
 import Model from "../components/3d_pokeball";
 import Navbar from "../components/navbar";
 import Card from "../components/card"
+import { pokemonInfo } from "../api/mainPageApi";
 
 
 
@@ -27,6 +28,8 @@ function Home() {
   const [enableRotate, setEnableRotate] = useState(true);
 
   const [showCards, setShowCards] = useState(false);
+
+  const [pokemonData, setPokemonData] = useState(null)
 
   const cameraRef = useRef(null);
 
@@ -62,11 +65,14 @@ function Home() {
   };
 
 
-  function handleGameLogic() {
+  async function handleGameLogic() {
 
     if (showCards) return;
 
     setEnableRotate(false);
+
+    const data = await pokemonInfo();
+    setPokemonData(data);
 
     const camera = cameraRef.current;
     const light = lightRef.current;
@@ -238,48 +244,54 @@ function Home() {
               <div className="relative h-full min-w-[1500px] xl:min-w-0 xl:w-full">
 
 
-              <Card
-                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                ref={cardRef1}
-                onCardClick={() => handleCardFlip(cardRef1, hasFlipped1)}
-                pokemonsObject={obj}
-              />
+                <Card
+                  pokemonsObject={pokemonData[0]}
+                  classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  ref={cardRef1}
+                  onCardClick={() => handleCardFlip(cardRef1, hasFlipped1)}
 
-              <Card
-                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                ref={cardRef2}
-                onCardClick={() => handleCardFlip(cardRef2, hasFlipped2)}
-                pokemonsObject={obj}
-              />
+                />
 
-              <Card
-                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                ref={cardRef3}
-                onCardClick={() => handleCardFlip(cardRef3,hasFlipped3)}
-                pokemonsObject={obj}
-              />
-              <Card
-                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                ref={cardRef4}
-                onCardClick={() => {
-                  
-                  handleCardFlip(cardRef4, hasFlipped4)}}
-                pokemonsObject={obj}
-              />
+                <Card
+                  pokemonsObject={pokemonData[1]}
+                  classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  ref={cardRef2}
+                  onCardClick={() => handleCardFlip(cardRef2, hasFlipped2)}
 
-              <Card
-                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                ref={cardRef5}
-                onCardClick={() => handleCardFlip(cardRef5, hasFlipped5)}
-                pokemonsObject={obj}
-              />
+                />
 
-              <Card
-                classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                ref={cardRef6}
-                onCardClick={() => handleCardFlip(cardRef6, hasFlipped6)}
-                pokemonsObject={obj}
-              />
+                <Card
+                  pokemonsObject={pokemonData[2]}
+                  classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  ref={cardRef3}
+                  onCardClick={() => handleCardFlip(cardRef3, hasFlipped3)}
+
+                />
+                <Card
+                  pokemonsObject={pokemonData[3]}
+                  classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  ref={cardRef4}
+                  onCardClick={() => {
+                    handleCardFlip(cardRef4, hasFlipped4)
+                  }}
+
+                />
+
+                <Card
+                  pokemonsObject={pokemonData[4]}
+                  classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  ref={cardRef5}
+                  onCardClick={() => handleCardFlip(cardRef5, hasFlipped5)}
+
+                />
+
+                <Card
+                  pokemonsObject={pokemonData[5]}
+                  classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  ref={cardRef6}
+                  onCardClick={() => handleCardFlip(cardRef6, hasFlipped6)}
+
+                />
 
               </div>
             </div>)

@@ -6,37 +6,38 @@ import { forwardRef } from "react";
 
 
 const Card = forwardRef(
-    ({ classNameTwo,className,onMouseEnter,onCardClick,pokemonsObject}, ref) => {
-    const dispatch = useDispatch();
+    ({ classNameTwo, className, onMouseEnter, onCardClick, pokemonsObject }, ref) => {
+        const dispatch = useDispatch();
 
-    const selectionLocked = useSelector(
-        (state) => state.pokemon.selectionLocked
-    );
 
-    const handleSelected = () => {
-        if (selectionLocked) return;
+        const selectionLocked = useSelector(
+            (state) => state.pokemon.selectionLocked
+        );
 
-        dispatch(addSelectedPokemon(pokemonsObject.id));
-        console.log(`saved ${pokemonsObject.id}`);
-    };
+        const handleSelected = () => {
+            if (selectionLocked) return;
 
-    return (
-        <div onClick={onCardClick} onMouseEnter={onMouseEnter} className={`${classNameTwo} [perspective:1000px]`}>
+            dispatch(addSelectedPokemon(pokemonsObject.id));
+            console.log(`saved ${pokemonsObject.id}`);
+        };
 
-            <div ref={ref}
-                className="
+        return (
+            <div onClick={onCardClick} onMouseEnter={onMouseEnter} className={`${classNameTwo} [perspective:1000px]`}>
+
+                <div ref={ref}
+                    className="
                     relative
                     h-90 w-60
                     lg:h-60 lg:w-45
                     xl:h-90 xl:w-60
                     [transform-style:preserve-3d]
                 "
-            >
+                >
 
-                {/* FRONT */}
-                <div
-                    onClick={handleSelected}
-                    className={`
+                    {/* FRONT */}
+                    <div
+                        onClick={handleSelected}
+                        className={`
                         ${className}
                         absolute inset-0
                         h-90 w-60
@@ -49,56 +50,56 @@ const Card = forwardRef(
                         [backface-visibility:hidden]
                         [transform:rotateY(180deg)]
                     `}
-                >
-                    <div className="relative h-full w-full bg-[image:var(--paper)]">
+                    >
+                        <div className="relative h-full w-full bg-[image:var(--paper)]">
 
-                        <div className="h-[60%] w-full relative">
+                            <div className={`${pokemonsObject.assets && pokemonsObject.type ? "h-full" : "h-[60%]"} w-full relative`}>
 
-                            <div className="absolute top-0 left-0 w-48 h-14 lg:w-40 lg:h-12 overflow-hidden">
+                                <div className="absolute top-0 left-0 w-48 h-14 lg:w-40 lg:h-12 overflow-hidden">
+                                    <img
+                                        src={frame}
+                                        className="absolute left-[-42px] top-[-4px] lg:left-[-35px] lg:top-[-3px]"
+
+                                    />
+                                </div>
+
+                                <p className="absolute top-0 left-1 text-[var(--gold)] font-bold lg:text-sm">
+                                    {pokemonsObject.name}
+                                </p>
+
                                 <img
-                                    src={frame}
-                                    className="absolute left-[-42px] top-[-4px] lg:left-[-35px] lg:top-[-3px]"
-
+                                    className={`w-full h-full object-cover ${pokemonsObject.assets? "relative z-10": ""}`}
+                                    src={pokemonsObject.image || pokemonsObject.assets}
+                                    alt={`${pokemonsObject} img`}
                                 />
+
                             </div>
-
-                            <p className="absolute top-0 left-1 text-[var(--gold)] font-bold lg:text-sm">
-                                {pokemonsObject.name}
-                            </p>
-
-                            <img
-                                className="w-full h-full object-cover"
-                                src={pokemonsObject.image}
-                                alt={`${pokemonsObject} img`}
-                            />
-
+                            {pokemonsObject.assets? null :
+                                <div className="font-bold flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-base">
+                                    <p>Name: {pokemonsObject.name}</p>
+                                    <p>Type: {pokemonsObject.type}</p>
+                                    <p>HP: {pokemonsObject.hp}</p>
+                                    <p>Attack: {pokemonsObject.attack}</p>
+                                </div>
+                            }
                         </div>
-
-                        <div className="font-bold flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-xs">
-                            <p>Name: {pokemonsObject.name}</p>
-                            <p>Type: {pokemonsObject.type}</p>
-                            <p>HP: {pokemonsObject.hp}</p>
-                            <p>Attack: {pokemonsObject.attack}</p>
-                        </div>
-
                     </div>
-                </div>
 
 
-                {/* BACK */}
-                <div
-                    className="
+                    {/* BACK */}
+                    <div
+                        className="
                         absolute inset-0
                         [transform:rotateY(0deg)]
                         [backface-visibility:hidden]
                     "
-                >
-                    <CardBack />
-                </div>
+                    >
+                        <CardBack />
+                    </div>
 
+                </div>
             </div>
-        </div>
-    );
-})
+        );
+    })
 
 export default Card;

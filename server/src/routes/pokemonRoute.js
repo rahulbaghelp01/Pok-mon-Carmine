@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const randomIdOne = Math.floor(Math.random() * 1000) + 1;
     const randomIdTwo = Math.floor(Math.random() * 1000) + 1;
-    let pokemonInfo = [];
+     
 
     async function pokemon(id) {
     const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`, {
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
         id: pokemonData.id,
         name: pokemonData.name,
         image: pokemonData.sprites.other["official-artwork"].front_default,
-        types: pokemonData.types.map(t => t.type.name),
+        type: pokemonData.types.map(t => t.type.name),
         hp: pokemonData.stats.find(s => s.stat.name === "hp").base_stat,
         attack: moveData.power
     };
@@ -38,10 +38,24 @@ router.get('/', async (req, res) => {
 
     const pokemonOne = await pokemon(randomIdOne);
     const pokemonTwo = await pokemon(randomIdTwo);
+    const grassImage = {
+        assets: "http://localhost:6969/assets/grassforproject.jpe",
+        type: "grassImage"
+    } 
+    const pokeballImage = {
+        assets: "http://localhost:6969/assets/pokeballimage.jpe",
+        type: "pokeballImage"
+    }
 
-    pokemonInfo.push(pokemonOne, pokemonTwo);
 
-    res.send(pokemonInfo);
+    const pokemonInfo = [pokemonOne,pokemonTwo,grassImage,pokeballImage,grassImage,grassImage].sort(() => Math.random() - 0.5); 
+    
+    res.status(200).json(
+        pokemonInfo
+    )
+     
+
+     
 });
 
 export default router
