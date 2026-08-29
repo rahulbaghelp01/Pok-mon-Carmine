@@ -39,12 +39,15 @@ router.get('/', async (req, res) => {
     const pokemonOne = await pokemon(randomIdOne);
     const pokemonTwo = await pokemon(randomIdTwo);
     const grassImage = {
-        assets: "http://localhost:6969/assets/grassforproject.jpe",
+        assets: "http://localhost:6969/assets/grassimagess.webp",
         type: "grassImage"
     } 
+
+    const pokeballs = Math.floor(Math.random() * 10 ) + 1
     const pokeballImage = {
-        assets: "http://localhost:6969/assets/pokeballimage.jpe",
-        type: "pokeballImage"
+        assets: "http://localhost:6969/assets/pokeballimage.png",
+        type: "pokeballImage",
+        pokeballs 
     }
 
 

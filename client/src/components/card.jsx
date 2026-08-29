@@ -68,13 +68,31 @@ const Card = forwardRef(
                                 </p>
 
                                 <img
-                                    className={`w-full h-full object-cover ${pokemonsObject.assets? "relative z-10": ""}`}
+                                    className={`w-full h-full object-cover ${pokemonsObject.assets ? "relative z-10" : ""}`}
                                     src={pokemonsObject.image || pokemonsObject.assets}
                                     alt={`${pokemonsObject} img`}
                                 />
-
+                                {pokemonsObject.assets && (
+                                    <p className="
+                                    -translate-x-1/2 -translate-y-1/2
+                                    w-[120%] text-center
+                                    whitespace-nowrap
+                                    px-12 py-2
+                                    text-xs font-bold text-white
+                                    bg-gradient-to-r
+                                    from-red-900/0
+                                    via-red-700/80
+                                    to-red-900/0
+                                        absolute top-[70%] left-1/2 z-20
+    ">
+                                        {pokemonsObject.type === "grassImage"
+                                            ? "Sorry, You Got Nothing"
+                                            : `You Got ${pokemonsObject.pokeballs}x Pokéballs`
+                                        }
+                                    </p>
+                                )}
                             </div>
-                            {pokemonsObject.assets? null :
+                            {pokemonsObject.assets ? null :
                                 <div className="font-bold bg-black/15 flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-base">
                                     <p>Name: {pokemonsObject.name}</p>
                                     <p>Type: {pokemonsObject.type}</p>
