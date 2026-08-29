@@ -225,10 +225,13 @@ function Home() {
 
   return (
     <main className="flex flex-col h-screen overflow-x-hidden overflow-y-auto gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-8 xl:overflow-hidden">
-      <Navbar />
+      <Navbar
+        pokemonCount={pokemonData ? pokemonData.length : 0}
+        deck={pokemonData ? pokemonData.slice(0, 3) : []}
+      />
 
       <div className={`flex-1 min-h-0 flex items-center flex-col justify-center px-3 sm:px-4 md:px-5 lg:px-6 xl:px-0 text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl text-[var(--white)] font-cinzel ${showCards ? "gap-1" : "gap-3 sm:gap-4 md:gap-4 lg:gap-5 xl:gap-5"}`}>
-        <div className="flex max-w-full flex-col items-center gap-1 text-center">
+        <div className="flex max-w-full flex-col items-center gap-1 text-center mt-12 sm:mt-14 md:mt-16 lg:mt-0 xl:mt-0">
           <p className="font-cinzel text-[var(--gold)] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl tracking-wide">
             Add pokemon to your collection:
           </p>

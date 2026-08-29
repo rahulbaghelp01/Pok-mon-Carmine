@@ -1,13 +1,30 @@
- 
+import { useState } from 'react';
 import PokeballBackpack from './PokeballBackpack';
+import ScrollPanel from './ScrollPanel';
 
-export default function Navbar(){
+export default function Navbar({ pokemonCount = 0, deck = [] }) {
+    const [scrollOpen, setScrollOpen] = useState(false);
 
-    return(
+    return (
         <nav className="w-full h-20 flex items-center justify-between gap-2 px-2 sm:gap-3 sm:px-4 md:gap-5 md:px-6 lg:gap-7 lg:px-8 xl:gap-0 xl:px-10 font-cormorant font-bold bg-[image:var(--primary)] border border-[var(--gold)]/30 shadow-lg shadow-black/40 border-b-black/60">
 
-            <div className="hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer drop-shadow-md">
-                <PokeballBackpack size={60} />
+            {/* relative wrapper: this is what makes the scroll appear
+                "just below" the backpack, regardless of where the backpack
+                sits in the layout */}
+            <div className="relative ">
+                <div
+                    onClick={() => setScrollOpen((prev) => !prev)}
+                    className="hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer drop-shadow-md"
+                >
+                    <PokeballBackpack size={60} />
+                </div>
+
+                <ScrollPanel
+                    isOpen={scrollOpen}
+                    pokemonCount={pokemonCount}
+                    deck={deck}
+                    className="absolute top-full left-0 mt-2 z-50 w-[11rem] sm:w-[13rem] md:w-[15rem] lg:w-[17rem] xl:w-[18rem]"
+                />
             </div>
 
             <div className="flex min-w-0 items-center justify-end gap-1 sm:gap-2 md:gap-4 lg:gap-6 xl:gap-10 xl:w-100 font-cormorant font-bold text-[var(--text)]">
