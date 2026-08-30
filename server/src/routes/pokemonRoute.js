@@ -1,4 +1,5 @@
 import express from 'express'
+import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
 
@@ -63,16 +64,48 @@ router.get('/', async (req, res) => {
 
 
 
-router.post("/savePokemon", async (req, res) => {
+router.post("/savePokemon",authMiddleware, async (req, res) => {
+
+    const userId = req.user.userId;
     const obtainedCards = req.body;
 
     const obtainedPokemons = obtainedCards.filter(
         (pokemon) => pokemon.id
-    );
+    ).map((pokemon) => {
+        return {
+            userId,
+            pokemonId: pokemon.id
+        }
+    });
 
     const pokeballReward = obtainedCards.find(
         (card) => card.pokeballs
     );
+
+    if (obtainedPokemons.length > 0) {
+        await prisma.userPokemon.createMany({
+            data: obtainedPokemons,
+            skipDuplicates: true
+        });
+    }
+
+    if (pokeballReward) {
+        await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                pokeballs: {
+                    increment: pokeballReward.pokeballs
+                }
+            }
+        });
+    }
+
+    res.status(200).json({
+        message: "Pokemon saved successfully"
+    });
+
 });
 
 export default router
