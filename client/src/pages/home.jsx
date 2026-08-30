@@ -26,13 +26,14 @@ function CameraController({ onCameraReady }) {
 function Home() {
 
   const [enableRotate, setEnableRotate] = useState(true);
-
   const [showCards, setShowCards] = useState(false);
+  const [pokemonData, setPokemonData] = useState(null);
+  const [flippedCards, setFlippedCards] = useState(0);
+  const [obtainedCards, setObtainedCards] = useState([]);
 
-  const [pokemonData, setPokemonData] = useState(null)
+  
 
   const cameraRef = useRef(null);
-
   const lightRef = useRef(null);
   const modelRef = useRef(null);
 
@@ -141,12 +142,18 @@ function Home() {
 
 
 
-  const handleCardFlip = (cardRef, hasFlipped) => {
+  const handleCardFlip = (cardRef, hasFlipped,cardData) => {
+
+    if (flippedCards >= 3) return;
+
     if (hasFlipped.current) {
       return;
     }
 
     hasFlipped.current = true;
+
+    setFlippedCards((prev) => prev + 1);
+    setObtainedCards((prev) => [...prev, cardData]);
 
     const tl = gsap.timeline();
 
@@ -167,7 +174,7 @@ function Home() {
         ease: "power3.out",
       });
 
-
+      console.log(obtainedCards)
   };
 
 
@@ -235,9 +242,13 @@ function Home() {
           <p className="font-cinzel text-[var(--gold)] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl tracking-wide">
             Add pokemon to your collection:
           </p>
-          <p className="text-[var(--white)]/70 text-sm sm:text-base md:text-lg lg:text-lg xl:text-lg font-cormorant">
-            Discover a new companion add them to your collection
-          </p>
+          { showCards? (<p className="text-[var(--white)]/70 text-sm sm:text-base md:text-lg lg:text-lg xl:text-lg font-cormorant">
+              <span className="text-[var(--gold)] font-cinzel font-bold text-xl">{3 - obtainedCards.length}</span>{" "}CHANCES ARE REMAINING
+            </p>):
+            (<p className="text-[var(--white)]/70 text-sm sm:text-base md:text-lg lg:text-lg xl:text-lg font-cormorant">
+              Discover a new companion add them to your collection
+            </p>)
+          }
         </div>
 
 
@@ -251,7 +262,7 @@ function Home() {
                   pokemonsObject={pokemonData[0]}
                   classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                   ref={cardRef1}
-                  onCardClick={() => handleCardFlip(cardRef1, hasFlipped1)}
+                  onCardClick={() => handleCardFlip(cardRef1, hasFlipped1,pokemonData[0])}
 
                 />
 
@@ -259,7 +270,7 @@ function Home() {
                   pokemonsObject={pokemonData[1]}
                   classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                   ref={cardRef2}
-                  onCardClick={() => handleCardFlip(cardRef2, hasFlipped2)}
+                  onCardClick={() => handleCardFlip(cardRef2, hasFlipped2,pokemonData[1])}
 
                 />
 
@@ -267,7 +278,7 @@ function Home() {
                   pokemonsObject={pokemonData[2]}
                   classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                   ref={cardRef3}
-                  onCardClick={() => handleCardFlip(cardRef3, hasFlipped3)}
+                  onCardClick={() => handleCardFlip(cardRef3, hasFlipped3,pokemonData[2])}
 
                 />
                 <Card
@@ -275,7 +286,7 @@ function Home() {
                   classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                   ref={cardRef4}
                   onCardClick={() => {
-                    handleCardFlip(cardRef4, hasFlipped4)
+                    handleCardFlip(cardRef4, hasFlipped4,pokemonData[3])
                   }}
 
                 />
@@ -284,7 +295,7 @@ function Home() {
                   pokemonsObject={pokemonData[4]}
                   classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                   ref={cardRef5}
-                  onCardClick={() => handleCardFlip(cardRef5, hasFlipped5)}
+                  onCardClick={() => handleCardFlip(cardRef5, hasFlipped5,pokemonData[4])}
 
                 />
 
@@ -292,7 +303,7 @@ function Home() {
                   pokemonsObject={pokemonData[5]}
                   classNameTwo="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                   ref={cardRef6}
-                  onCardClick={() => handleCardFlip(cardRef6, hasFlipped6)}
+                  onCardClick={() => handleCardFlip(cardRef6, hasFlipped6,pokemonData[5])}
 
                 />
 
@@ -327,12 +338,19 @@ function Home() {
               <OrbitControls enableRotate={enableRotate} enableZoom={false} />
             </Canvas>)
           }
-
-          <button
-            onClick={handleGameLogic}
-            className="shrink-0 bg-[var(--gold)] border border-[var(--black)]/60 text-[var(--black)] text-lg px-5 py-3 rounded-xl font-cinzel hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:cursor-pointer sm:text-xl sm:px-6 sm:py-3 md:text-xl md:px-7 md:py-4 lg:text-2xl lg:px-8 lg:py-4 xl:text-2xl xl:px-8 xl:py-4">
-            CATCH POKEMON
-          </button>
+          {showCards ? (
+            <button
+              onClick={handleGameLogic}
+              className="shrink-0 bg-red-500/60 border border-[var(--black)]/60 text-[var(--white)] text-lg px-5 py-3 rounded-xl font-cinzel hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:cursor-pointer sm:text-xl sm:px-6 sm:py-3 md:text-xl md:px-7 md:py-4 lg:text-2xl lg:px-8 lg:py-4 xl:text-2xl xl:px-8 xl:py-4">
+              Save Pokemons
+            </button>)
+            :
+            (<button
+              onClick={handleGameLogic}
+              className="shrink-0 bg-[var(--gold)] border border-[var(--black)]/60 text-[var(--black)] text-lg px-5 py-3 rounded-xl font-cinzel hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:cursor-pointer sm:text-xl sm:px-6 sm:py-3 md:text-xl md:px-7 md:py-4 lg:text-2xl lg:px-8 lg:py-4 xl:text-2xl xl:px-8 xl:py-4">
+              CATCH POKEMON
+            </button>)
+          }
         </div>
 
 

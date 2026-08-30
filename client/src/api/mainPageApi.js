@@ -4,3 +4,14 @@ export async function pokemonInfo(){
 
     return data 
 }
+
+
+export async function savePokemons(pokemons) {
+    const response = await fetch("http://localhost:6969/pokemon/savePokemon", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(pokemons)
+    });
+}

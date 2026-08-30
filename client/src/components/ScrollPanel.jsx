@@ -1,24 +1,41 @@
 import { forwardRef, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import DeckCard from "./deckcard";
 
 /**
  * ScrollPanel
  * A parchment "scroll" that unrolls open/closed, like the reference image.
  * Structure: top rod -> paper (height-animated) -> bottom rod, stacked in a
  * normal flex column, so the bottom rod naturally travels down as the paper
- * grows taller. No manual position math needed.
+ * grows taller. The paper's height is kept in sync with its actual content
+ * via a ResizeObserver, so it always grows to fit no matter what's inside.
  *
  * Usage:
- *   <ScrollPanel isOpen={open} pokemonCount={12} deck={[{image, name}, ...]} />
+ *   <ScrollPanel
+ *     isOpen={open}
+ *     pokeballCount={10}
+ *     pokemons={[{ id, name, image, type: ["fire"], hp, attack }, ...]}
+ *   />
  */
 const ScrollPanel = forwardRef(function ScrollPanel(
-  { isOpen, pokemonCount = 0, deck = [], className = "" },
+  { isOpen, pokeballCount = 0, pokemons = [], className = "" },
   ref
 ) {
   const paperWrapRef = useRef(null);
   const contentRef = useRef(null);
   const tlRef = useRef(null);
+
+  const totalPokemon = pokemons.length;
+
+  // type is an array per pokemon (e.g. ["fire"] or ["grass", "poison"]),
+  // so a dual-type pokemon counts toward both of its types.
+  const typeCounts = pokemons.reduce((acc, p) => {
+    (p.type || []).forEach((t) => {
+      acc[t] = (acc[t] || 0) + 1;
+    });
+    return acc;
+  }, {});
+
+  const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
 
   useLayoutEffect(() => {
     const wrap = paperWrapRef.current;
@@ -28,17 +45,13 @@ const ScrollPanel = forwardRef(function ScrollPanel(
     if (tlRef.current) tlRef.current.kill();
 
     if (isOpen) {
-      // Measure the natural height of the content so we can animate to it
-      // (GSAP can't tween to "auto").
-      const targetHeight = content.scrollHeight;
-
       gsap.set(wrap, { height: 0 });
       gsap.set(content, { opacity: 0, y: -12 });
 
       tlRef.current = gsap
         .timeline()
         .to(wrap, {
-          height: targetHeight,
+          height: content.scrollHeight,
           duration: 0.7,
           ease: "power3.out",
         })
@@ -47,25 +60,42 @@ const ScrollPanel = forwardRef(function ScrollPanel(
           { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
           "-=0.25"
         );
+
+      // Keep the wrapper's height glued to the content's real height for
+      // as long as the panel stays open — covers late-loading data, images,
+      // or the types list growing/shrinking, so nothing ever gets clipped.
+      const resizeObserver = new ResizeObserver(() => {
+        gsap.to(wrap, {
+          height: content.scrollHeight,
+          duration: 0.35,
+          ease: "power2.out",
+        });
+      });
+      resizeObserver.observe(content);
+
+      return () => {
+        resizeObserver.disconnect();
+        tlRef.current && tlRef.current.kill();
+      };
     } else {
       tlRef.current = gsap
         .timeline()
         .to(content, { opacity: 0, y: -8, duration: 0.2, ease: "power1.in" })
         .to(wrap, { height: 0, duration: 0.5, ease: "power2.in" }, "-=0.05");
-    }
 
-    return () => tlRef.current && tlRef.current.kill();
-  }, [isOpen, deck, pokemonCount]);
+      return () => tlRef.current && tlRef.current.kill();
+    }
+  }, [isOpen]);
 
   return (
     <div
       ref={ref}
-      className={`flex flex-col items-center w-44 sm:w-52 md:w-60 lg:w-64 xl:w-72 ${className}`}
+      className={`flex flex-col items-center w-44 sm:w-52 md:w-60 lg:w-64 xl:w-72 mt-4 mb-4 ${className}`}
     >
       {/* top rod */}
       <RodCap />
 
-      {/* the parchment itself, height-animated by gsap */}
+      {/* the parchment itself, height-animated by gsap + ResizeObserver */}
       <div
         ref={paperWrapRef}
         className="w-[94%] overflow-hidden"
@@ -81,26 +111,25 @@ const ScrollPanel = forwardRef(function ScrollPanel(
             </p>
 
             <div className="flex flex-col gap-1 text-[11px] sm:text-xs md:text-sm border-b border-[var(--black)]/20 pb-3 sm:pb-4 mb-3 sm:mb-4">
-              <span className="font-bold tracking-wide">
-                Pokemon Collected
-              </span>
-              <span className="text-xl sm:text-2xl font-cinzel">{pokemonCount}</span>
-            </div>
-
-            <div className="flex flex-col gap-2 text-[11px] sm:text-xs md:text-sm">
-              <span className="font-bold tracking-wide">Deck</span>
-              <div className="flex gap-1.5 sm:gap-2 md:gap-3 justify-center">
-                <DeckCard pokemonsObject={deck[0]} />
-                <DeckCard pokemonsObject={deck[1]} />
-                <DeckCard pokemonsObject={deck[2]} />
+              <div className="flex justify-between items-baseline">
+                <span className="font-bold tracking-wide">Pokeballs</span>
+                <span className="text-lg sm:text-xl font-cinzel">
+                  {pokeballCount}
+                </span>
               </div>
-            </div>
+              <div className="flex justify-between items-baseline m-10">
+                <span className="font-bold tracking-wide">
+                  Pokemon Collected
+                </span>
+                <span className="text-lg sm:text-xl font-cinzel">
+                  {totalPokemon}
+                </span>
+              </div>
+            </div> 
           </div>
         </div>
       </div>
-
-      {/* bottom rod - moves down automatically because it's below the
-          growing paper in normal flex flow */}
+ 
       <RodCap />
     </div>
   );

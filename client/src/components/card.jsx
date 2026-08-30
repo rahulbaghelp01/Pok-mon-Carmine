@@ -93,7 +93,7 @@ const Card = forwardRef(
                                 )}
                             </div>
                             {pokemonsObject.assets ? null :
-                                <div className="font-bold bg-black/15 flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-base">
+                                <div className="font-bold bg-black/30  flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-base">
                                     <p>Name: {pokemonsObject.name}</p>
                                     <p>Type: {pokemonsObject.type}</p>
                                     <p>HP: {pokemonsObject.hp}</p>

@@ -21,15 +21,15 @@ export default function Navbar({ pokemonCount = 0, deck = [] }) {
 
                 <ScrollPanel
                     isOpen={scrollOpen}
-                    pokemonCount={pokemonCount}
-                    deck={deck}
-                    className="absolute top-full left-0 mt-2 z-50 w-[11rem] sm:w-[13rem] md:w-[15rem] lg:w-[17rem] xl:w-[18rem]"
+                    pokeballCount={0}
+                    pokemons={[0]}
+                    className="absolute top-full left-0 z-50"
                 />
             </div>
 
             <div className="flex min-w-0 items-center justify-end gap-1 sm:gap-2 md:gap-4 lg:gap-6 xl:gap-10 xl:w-100 font-cormorant font-bold text-[var(--text)]">
                 <button className="border-2 border-[var(--gold)]/90 shadow-lg shadow-black/40 w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] hover:-translate-y-0.5 rounded cursor-pointer tracking-wide hover:shadow-lg sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">
-                PLAY
+                    PLAY
                 </button>
                 <button className="border border-[var(--gold)] w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] focus:border-white hover:shadow-lg hover:-translate-y-0.5 rounded cursor-pointer shadow-md shadow-black/40 tracking-wide sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">FAV</button>
                 <button className="border border-[var(--gold)] w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] focus:border-white hover:shadow-lg hover:-translate-y-0.5 rounded cursor-pointer shadow-md shadow-black/40 tracking-wide sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">PROFILE</button>
