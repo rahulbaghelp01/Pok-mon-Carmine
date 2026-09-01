@@ -10,6 +10,8 @@ export async function savePokemons(pokemons) {
 
     const token  = localStorage.getItem("token")
 
+    console.log("token", token)
+
     const response = await fetch("http://localhost:6969/pokemon/savePokemon", {
         method: "POST",
         headers: {
@@ -18,4 +20,23 @@ export async function savePokemons(pokemons) {
         },
         body: JSON.stringify(pokemons)
     });
+    
+}
+
+
+
+export async function getUserData() { 
+    const token  = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:6969/pokemon/user", {
+        method: "GET",
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+
+
+    });
+
+    const data = await response.json();
+    return data;
 }

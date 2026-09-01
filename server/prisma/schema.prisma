@@ -12,7 +12,7 @@ model User {
   username String @unique
   password String
   email    String @unique
-  pokeballs Int   
+  pokeballs Int @default(10)  
 
   pokemon UserPokemon[]
 }

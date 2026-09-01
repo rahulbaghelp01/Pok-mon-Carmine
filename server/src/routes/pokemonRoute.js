@@ -1,11 +1,27 @@
 import express from 'express'
-import authMiddleware from '../middleware/authMiddleware';
+import authMiddleware from '../middleware/authMiddleware.js'
+import "dotenv/config";
+import pkg from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+
+
+const { PrismaClient } = pkg;
+
+const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL
+});
+
+const prisma = new PrismaClient({
+    adapter
+});
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     const randomIdOne = Math.floor(Math.random() * 1000) + 1;
     const randomIdTwo = Math.floor(Math.random() * 1000) + 1;
+
+
 
 
     async function pokemon(id) {
@@ -29,9 +45,9 @@ router.get('/', async (req, res) => {
             id: pokemonData.id,
             name: pokemonData.name,
             image: pokemonData.sprites.other["official-artwork"].front_default,
-            type: pokemonData.types.map(t => t.type.name),
+            type: pokemonData.types.map(t => t.type.name).join(", "),
             hp: pokemonData.stats.find(s => s.stat.name === "hp").base_stat,
-            attack: moveData.power
+            attack: moveData.power ?? 0
         };
 
         return obj;
@@ -51,6 +67,11 @@ router.get('/', async (req, res) => {
         pokeballs
     }
 
+    await prisma.pokemon.createMany({
+        data: [pokemonOne, pokemonTwo],
+        skipDuplicates: true
+    });
+
 
     const pokemonInfo = [pokemonOne, pokemonTwo, grassImage, pokeballImage, grassImage, grassImage].sort(() => Math.random() - 0.5);
 
@@ -64,7 +85,7 @@ router.get('/', async (req, res) => {
 
 
 
-router.post("/savePokemon",authMiddleware, async (req, res) => {
+router.post("/savePokemon", authMiddleware, async (req, res) => {
 
     const userId = req.user.userId;
     const obtainedCards = req.body;
@@ -107,5 +128,37 @@ router.post("/savePokemon",authMiddleware, async (req, res) => {
     });
 
 });
+
+
+
+
+router.get("/user", authMiddleware, async (req, res) => {
+
+    const userId = req.user.userId;
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId
+        },
+        select: {
+            id: true,
+            gamingId: true,
+            username: true,
+            email: true,
+            pokeballs: true,
+            pokemon: {
+                include: {
+                    pokemon: true
+                }
+            }
+        }
+    });
+
+    res.status(200).json(user);
+});
+
+
+
+
 
 export default router
