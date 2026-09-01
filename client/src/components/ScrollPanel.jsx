@@ -26,16 +26,8 @@ const ScrollPanel = forwardRef(function ScrollPanel(
 
   const totalPokemon = pokemons.length;
 
-  // type is an array per pokemon (e.g. ["fire"] or ["grass", "poison"]),
-  // so a dual-type pokemon counts toward both of its types.
-  const typeCounts = pokemons.reduce((acc, p) => {
-    (p.type || []).forEach((t) => {
-      acc[t] = (acc[t] || 0) + 1;
-    });
-    return acc;
-  }, {});
-
-  const sortedTypes = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
+ 
+ 
 
   useLayoutEffect(() => {
     const wrap = paperWrapRef.current;

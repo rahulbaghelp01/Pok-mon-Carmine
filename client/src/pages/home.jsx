@@ -9,11 +9,13 @@ import Navbar from "../components/navbar";
 import Card from "../components/card"
 import { pokemonInfo, savePokemons, getUserData } from "../api/mainPageApi";
 
-import { addPokemon } from "../store/pokemonSlice";
+import { addPokemon, setPokemons } from "../store/pokemonSlice.js";
 import { useDispatch } from "react-redux";
+import { setUser } from "../store/userSlice";
 
 import { useNavigate } from "react-router-dom";
 import { validateToken } from "../api/authPageApi";
+
 
 
 function CameraController({ onCameraReady }) {
@@ -179,8 +181,6 @@ function Home() {
         duration: 0.75,
         ease: "power3.out",
       });
-
-    console.log(obtainedCards)
   };
 
   const handleClaimRewards = async () => {
@@ -199,7 +199,7 @@ function Home() {
     setFlippedCards(0)
   };
 
-  
+
 
   useEffect(() => {
 
@@ -214,7 +214,14 @@ function Home() {
 
       const userData = await getUserData();
 
-      console.log(userData);
+      dispatch(setUser(userData));
+
+      // dispatch pokemon collection
+      dispatch(
+        setPokemons(
+          userData.pokemon.map((item) => item.pokemon)
+        )
+      );
     };
 
     initializeUser();
@@ -269,7 +276,6 @@ function Home() {
         duration: 1
       });
     }
-    console.log(window.innerWidth)
   }, [showCards]);
 
 

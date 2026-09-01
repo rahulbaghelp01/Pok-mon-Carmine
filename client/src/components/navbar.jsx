@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import PokeballBackpack from './PokeballBackpack';
 import ScrollPanel from './ScrollPanel';
+import { useSelector } from 'react-redux';
 
 export default function Navbar({ pokemonCount = 0, deck = [] }) {
+
+    const user = useSelector((state) => state.user.user);
+    const pokeballCount = user?.pokeballs ?? 0;
+
+    const pokemons = useSelector((state) => state.pokemon.pokemons);
+
     const [scrollOpen, setScrollOpen] = useState(false);
 
     return (
@@ -21,8 +28,8 @@ export default function Navbar({ pokemonCount = 0, deck = [] }) {
 
                 <ScrollPanel
                     isOpen={scrollOpen}
-                    pokeballCount={0}
-                    pokemons={[0]}
+                    pokeballCount={pokeballCount}
+                    pokemons={pokemons}
                     className="absolute top-full left-0 z-50"
                 />
             </div>

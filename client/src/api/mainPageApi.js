@@ -9,8 +9,7 @@ export async function pokemonInfo() {
 export async function savePokemons(pokemons) {
 
     const token  = localStorage.getItem("token")
-
-    console.log("token", token)
+ 
 
     const response = await fetch("http://localhost:6969/pokemon/savePokemon", {
         method: "POST",
