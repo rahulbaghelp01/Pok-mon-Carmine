@@ -1,7 +1,9 @@
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:6969";
+
 //Function to get the pokemon data for the registration page
 export async function getPokemons() {
-    const response = await fetch("http://localhost:6969/auth")
+    const response = await fetch(`${API_URL}/auth`)
 
     const data = await response.json();
 
@@ -14,7 +16,7 @@ export async function getPokemons() {
 // Function to validate the token
 export async function validateToken() {
  
-    const response = await fetch("http://localhost:6969/auth/validate", {
+    const response = await fetch(`${API_URL}/auth/validate`, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -34,7 +36,7 @@ export async function validateToken() {
 export async function register(username, email, password, pokemonId) {
     
 
-    const response = await fetch("http://localhost:6969/auth/register", {
+    const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -64,7 +66,7 @@ export async function register(username, email, password, pokemonId) {
 //FUNCTION TO LOGIN A USER
 
 export async function login(identifier, password) {
-    const response = await fetch("http://localhost:6969/auth/login", {
+    const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

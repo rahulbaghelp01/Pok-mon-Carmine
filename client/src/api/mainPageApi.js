@@ -1,5 +1,7 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:6969";
+
 export async function pokemonInfo() {
-    const response = await fetch("http://localhost:6969/pokemon");
+    const response = await fetch(`${API_URL}/pokemon`);
     const data = await response.json();
 
     return data
@@ -11,7 +13,7 @@ export async function savePokemons(pokemons) {
     const token  = localStorage.getItem("token")
  
 
-    const response = await fetch("http://localhost:6969/pokemon/savePokemon", {
+    const response = await fetch(`${API_URL}/pokemon/savePokemon`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -27,7 +29,7 @@ export async function savePokemons(pokemons) {
 export async function getUserData() { 
     const token  = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:6969/pokemon/user", {
+    const response = await fetch(`${API_URL}/pokemon/user`, {
         method: "GET",
         headers: {
             authorization: `Bearer ${token}`
