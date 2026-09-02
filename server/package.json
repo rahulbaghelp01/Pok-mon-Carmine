@@ -2,6 +2,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch ./src/server.js",
+    "start": "node ./src/server.js",
     "temp": "node --watch ./src/data.js"
   },
   "dependencies": {
@@ -9,6 +10,7 @@
     "@prisma/client": "^7.9.1",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "nanoid": "^6.0.1",
