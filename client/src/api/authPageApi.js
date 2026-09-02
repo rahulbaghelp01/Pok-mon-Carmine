@@ -13,8 +13,7 @@ export async function getPokemons() {
 
 // Function to validate the token
 export async function validateToken() {
-
-    console.log(localStorage.getItem("token"))
+ 
     const response = await fetch("http://localhost:6969/auth/validate", {
         method: "POST",
         headers: {
@@ -33,6 +32,8 @@ export async function validateToken() {
 
 // Function to register a new user
 export async function register(username, email, password, pokemonId) {
+    
+
     const response = await fetch("http://localhost:6969/auth/register", {
         method: "POST",
         headers: {

@@ -208,7 +208,7 @@ function Home() {
       const result = await validateToken();
 
       if (!result.ok) {
-        navigate("/signup");
+        navigate("/auth");
         return;
       }
 
@@ -225,6 +225,7 @@ function Home() {
     };
 
     initializeUser();
+    
 
   }, []);
 

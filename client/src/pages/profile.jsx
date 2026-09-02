@@ -1,50 +1,144 @@
 import Navbar from "../components/navbar.jsx";
-import Card from "../components/card.jsx";
+import PokemonCard from "../components/profile-pagecard.jsx";
 import EditIcon from "../assets/svg-border/edit.jsx";
 
-const demi = [1,2,3,4,5,6,7,8,9,10];
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export default function Profile({username, password}) {
+import { validateToken } from "../api/authPageApi.js";
+import { getUserData } from "../api/mainPageApi.js";
+
+import { setUser } from "../store/userSlice.js";
+import { setPokemons } from "../store/pokemonSlice.js";
+
+
+export default function Profile() {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const user = useSelector((state) => state.user.user);
+    const pokemons = useSelector((state) => state.pokemon.pokemons);
+
+    const username = user?.username || "Unknown";
+    const gamingId = user?.gamingId || "Unknown";
+
+
+    useEffect(() => {
+
+        const initializeUser = async () => {
+
+            const result = await validateToken();
+
+            if (!result.ok) {
+                navigate("/auth");
+                return;
+            }
+
+            const userData = await getUserData();
+
+            dispatch(setUser(userData));
+
+            dispatch(
+                setPokemons(
+                    userData.pokemon.map((item) => item.pokemon)
+                )
+            );
+        };
+
+        initializeUser();
+
+    }, []);
+
+
     return (
         <main className="flex flex-col bg-[image:var(--paper)] bg-cover min-h-screen items-center gap-10 font-cinzel">
+
             <Navbar />
-            <p className="text-xl font-bold  mb-2">Trainer information</p>
+
+            <p className="text-xl font-bold mb-2">
+                Trainer Information
+            </p>
+
+
+            {/* Trainer Information */}
             <section className="w-1/2 max-w-5xl mx-auto mt-5 flex justify-between items-center">
-            
+
+                {/* Username */}
                 <div className="flex items-center gap-2">
-                    <label htmlFor="name">Name:</label>
-                    <input className="border-b-2 border-black bg-transparent outline-none px-2 w-48"  type="text" id="name" name="name" value={username} readOnly />
-                    <button className="p-1 bg-transparent border-none" ><EditIcon /></button>
-                </div>
-                <div className="flex items-center gap-2">
-                    <label htmlFor="password">password:</label>
-                    <input className="border-b-2 border-black bg-transparent outline-none px-2 w-48 " type="password" id="password" name="password" value={password} readOnly />
-                    <button className="p-1 bg-transparent border-none" ><EditIcon /></button>
-                </div>
-            </section>
-            
-            <section className="flex flex-col w-1/2 max-w-5xl justify-center">
-                <div className="flex flex-col items-center mb-4">
-                <p className="text-xl font-bold mb-4 mt-2">DECK</p>
-                <div className="flex gap-12 justify-center mt-2">
-                    <Card />
-                    <Card />
-                    <Card />
+
+                    <label htmlFor="name">
+                        Name:
+                    </label>
+
+                    <input
+                        className="border-b-2 border-black bg-transparent outline-none px-2 w-48"
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={username}
+                        readOnly
+                    />
+
+                    <button className="p-1 bg-transparent border-none">
+                        <EditIcon />
+                    </button>
 
                 </div>
-            </div>
+
+
+                {/* Gaming ID */}
+                <div className="flex items-center gap-2">
+
+                    <label htmlFor="gamingId">
+                        Gaming ID:
+                    </label>
+
+                    <input
+                        className="border-b-2 border-black bg-transparent outline-none px-2 w-48"
+                        type="text"
+                        id="gamingId"
+                        name="gamingId"
+                        value={gamingId}
+                        readOnly
+                    />
+
+                </div>
+
             </section>
+
+
+            {/* Pokemon Collection */}
             <section className="flex flex-col w-1/2 max-w-5xl justify-center mt-2">
+
                 <div className="flex flex-col items-center mb-4">
-                <p className="text-xl font-bold mb-4 mt-2">YOUR COLLECTION</p>
-                <div className="grid grid-cols-3 gap-10 justify-items-center mt-4">
-                    <Card />
-                    <Card />
-                    <Card />
+
+                    <p className="text-xl font-bold mb-4 mt-2">
+                        YOUR COLLECTION
+                    </p>
+
+                    <div className="grid grid-cols-3 gap-10 justify-items-center mt-4">
+
+                        {pokemons.length > 0 ? (
+                            pokemons.map((pokemon) => (
+                                <PokemonCard
+                                    key={pokemon.id}
+                                    pokemon={pokemon}
+                                />
+                            ))
+                        ) : (
+                            <p className="col-span-3">
+                                You haven't collected any Pokémon yet.
+                            </p>
+                        )}
+
+                    </div>
 
                 </div>
-            </div>
+
             </section>
+
         </main>
-    )
+    );
 }

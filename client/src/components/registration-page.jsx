@@ -57,12 +57,15 @@ function Registration() {
             setErrorMessage("Passwords Dont Match") 
             return false;
         }
+        
 
         setErrorMessage("")
         return true
     }
 
     const handleRegister = async (e) => {
+
+        try {
         e.preventDefault();
         if (!handleRegistrationValidation()) return;
 
@@ -78,10 +81,15 @@ function Registration() {
         }
         
         setErrorMessage("")
+        } catch (error) {
+            alert("An error occurred during registration. Please try again.");
+            setErrorMessage("An error occurred during registration. Please try again.");
+        }
         
     };
 
     const handleLogin = async (e) => {
+        try {
         e.preventDefault();
 
         if(password !== confirmPassword){
@@ -103,6 +111,9 @@ function Registration() {
 
         setErrorMessage("")
         return
+    } catch (error) {
+        alert("An error occurred during login. Please try again.");
+        setErrorMessage("An error occurred during login. Please try again.")}
 
     };
 

@@ -3,7 +3,9 @@ import PokeballBackpack from './PokeballBackpack';
 import ScrollPanel from './ScrollPanel';
 import { useSelector } from 'react-redux';
 
-export default function Navbar({ pokemonCount = 0, deck = [] }) {
+import { Link } from "react-router-dom";
+
+export default function Navbar() {
 
     const user = useSelector((state) => state.user.user);
     const pokeballCount = user?.pokeballs ?? 0;
@@ -35,11 +37,17 @@ export default function Navbar({ pokemonCount = 0, deck = [] }) {
             </div>
 
             <div className="flex min-w-0 items-center justify-end gap-1 sm:gap-2 md:gap-4 lg:gap-6 xl:gap-10 xl:w-100 font-cormorant font-bold text-[var(--text)]">
-                <button className="border-2 border-[var(--gold)]/90 shadow-lg shadow-black/40 w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] hover:-translate-y-0.5 rounded cursor-pointer tracking-wide hover:shadow-lg sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">
-                    PLAY
-                </button>
-                <button className="border border-[var(--gold)] w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] focus:border-white hover:shadow-lg hover:-translate-y-0.5 rounded cursor-pointer shadow-md shadow-black/40 tracking-wide sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">FAV</button>
-                <button className="border border-[var(--gold)] w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] focus:border-white hover:shadow-lg hover:-translate-y-0.5 rounded cursor-pointer shadow-md shadow-black/40 tracking-wide sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">PROFILE</button>
+                <Link to="/">
+                    <button className="border-2 border-[var(--gold)]/90 shadow-lg shadow-black/40 w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] hover:-translate-y-0.5 rounded cursor-pointer tracking-wide hover:shadow-lg sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">
+                        PLAY
+                    </button>
+                </Link>
+
+                <Link to="/profile">
+                    <button className="border border-[var(--gold)] w-16 h-8 bg-[image:var(--paper)] px-1 text-xs outline-none transition-all duration-300 hover:border-[var(--white)] focus:border-white hover:shadow-lg hover:-translate-y-0.5 rounded cursor-pointer shadow-md shadow-black/40 tracking-wide sm:w-20 sm:h-9 sm:px-2 sm:text-sm md:w-24 md:h-10 md:px-3 lg:w-28 lg:px-4 xl:w-28 xl:h-10 xl:px-4 xl:text-base">
+                        PROFILE
+                    </button>
+                </Link>
             </div>
 
         </nav>
