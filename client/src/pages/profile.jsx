@@ -118,7 +118,7 @@ export default function Profile() {
                         YOUR COLLECTION
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center mt-4">
 
                         {pokemons.length > 0 ? (
                             pokemons.map((pokemon) => (
@@ -128,7 +128,7 @@ export default function Profile() {
                                 />
                             ))
                         ) : (
-                            <p className="col-span-1 sm:col-span-2 lg:col-span-3">
+                            <p className="col-span-1 sm:col-span-2 lg:col-span-2 xl:col-span-3">
                                 You haven't collected any Pokémon yet.
                             </p>
                         )}

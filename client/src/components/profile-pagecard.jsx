@@ -5,7 +5,6 @@ function PokemonCard({ pokemon }) {
         <div
             className="
                 h-90 w-60
-                lg:h-60 lg:w-45
                 xl:h-90 xl:w-60
                 p-2
                 bg-[var(--gold)]
@@ -16,14 +15,14 @@ function PokemonCard({ pokemon }) {
 
                 <div className="h-[60%] w-full relative">
 
-                    <div className="absolute top-0 left-0 w-48 h-14 lg:w-40 lg:h-12 overflow-hidden">
+                    <div className="absolute top-0 left-0 w-48 h-14 overflow-hidden">
                         <img
                             src={frame}
-                            className="absolute left-[-42px] top-[-4px] lg:left-[-35px] lg:top-[-3px]"
+                            className="absolute left-[-42px] top-[-4px]"
                         />
                     </div>
 
-                    <p className="absolute top-0 left-1 text-[var(--gold)] font-bold lg:text-sm">
+                    <p className="absolute top-0 left-1 text-[var(--gold)] font-bold">
                         {pokemon.name}
                     </p>
 
@@ -34,7 +33,7 @@ function PokemonCard({ pokemon }) {
                     />
                 </div>
 
-                <div className="font-bold bg-black/30 flex flex-col justify-between h-[40%] p-4 lg:p-3 gap-1 text-[var(--text)] font-cormorant text-sm lg:text-base">
+                <div className="font-bold bg-black/30 flex flex-col justify-between h-[40%] p-4 gap-1 text-[var(--text)] font-cormorant text-sm">
                     <p>Name: {pokemon.name}</p>
                     <p>Type: {pokemon.type}</p>
                     <p>HP: {pokemon.hp}</p>
