@@ -63,7 +63,7 @@ export default function Profile() {
 
 
             {/* Trainer Information */}
-            <section className="w-1/2 max-w-5xl mx-auto mt-5 flex justify-between items-center">
+            <section className="w-full max-w-5xl mx-auto mt-5 px-4 flex flex-col gap-4 justify-between items-center sm:w-3/4 sm:flex-row lg:w-1/2">
 
                 {/* Username */}
                 <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export default function Profile() {
 
 
             {/* Pokemon Collection */}
-            <section className="flex flex-col w-1/2 max-w-5xl justify-center mt-2">
+            <section className="flex flex-col w-full max-w-5xl px-4 justify-center mt-2 sm:w-3/4 lg:w-1/2">
 
                 <div className="flex flex-col items-center mb-4">
 
@@ -118,7 +118,7 @@ export default function Profile() {
                         YOUR COLLECTION
                     </p>
 
-                    <div className="grid grid-cols-3 gap-10 justify-items-center mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center mt-4">
 
                         {pokemons.length > 0 ? (
                             pokemons.map((pokemon) => (
@@ -128,7 +128,7 @@ export default function Profile() {
                                 />
                             ))
                         ) : (
-                            <p className="col-span-3">
+                            <p className="col-span-1 sm:col-span-2 lg:col-span-3">
                                 You haven't collected any Pokémon yet.
                             </p>
                         )}
