@@ -1,6 +1,6 @@
 import Registration from "../components/registration-page";
 import StarterPokemon from "../components/Starter-pokemon";
-import CardBack from "../components/POKEMONCARD-backside";
+ 
 
 function AuthPage() {
     return (

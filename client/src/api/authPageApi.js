@@ -15,6 +15,8 @@ export async function getPokemons() {
 
 // Function to validate the token
 export async function validateToken() {
+
+    try{
  
     const response = await fetch(`${API_URL}/auth/validate`, {
         method: "POST",
@@ -29,6 +31,13 @@ export async function validateToken() {
         ok: response.ok,
         data
     };
+    } catch (error) {
+        console.error("Error validating token:", error);
+        return {
+            ok: false,
+            data: null
+        };
+    }
 }
 
 

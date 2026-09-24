@@ -39,6 +39,8 @@ function Home() {
   const [flippedCards, setFlippedCards] = useState(0);
   const [obtainedCards, setObtainedCards] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
 
 
   const cameraRef = useRef(null);
@@ -75,79 +77,78 @@ function Home() {
 
 
   async function handleGameLogic() {
-
-    if (showCards) return;
+    if (showCards || loading) return;
 
     setEnableRotate(false);
+    setLoading(true);
 
-    const data = await pokemonInfo();
-    setPokemonData(data);
+    try {
+      const data = await pokemonInfo();
+        setLoading(false);
 
-    const camera = cameraRef.current;
-    const light = lightRef.current;
-    const model = modelRef.current;
+      setPokemonData(data);
 
-    gsap.timeline()
-      // Camera moves + light starts at the SAME TIME
-      .to(camera.position, {
-        x: -1.803124,
-        y: 1.151087,
-        z: 2.103269,
-        duration: 0.35,
-        ease: "power2.out"
-      })
-      .to(camera.position, {
-        x: -0.741165,
-        y: 1.407466,
-        z: 2.543563,
-        duration: 1,
-        ease: "power3.out"
-      })
-      .to(light, {
-        intensity: 10,
-        duration: 1.35,
-        ease: "power2.out"
-      }, 0)
+      const camera = cameraRef.current;
+      const light = lightRef.current;
+      const model = modelRef.current;
 
-      // SHAKE 1
-      .to(model.rotation, {
-        z: 0.30,
-        duration: 0.08,
-        repeat: 9,
-        yoyo: true,
-        ease: "sine.inOut"
-      })
-      .to({}, { duration: 0.25 })
-
-      // SHAKE 2
-      .to(model.rotation, {
-        z: 0.30,
-        duration: 0.08,
-        repeat: 9,
-        yoyo: true,
-        ease: "sine.inOut"
-      })
-      .to({}, { duration: 0.25 })
-      .to(light, {
-        intensity: 0,
-        duration: 0.3,
-        ease: "power2.out"
-      })
-      .to(model.scale, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 0.5,
-        ease: "power2.in"
-      })
-      .call(() => {
-        setShowCards(true);
-
-      });
-
+      gsap.timeline()
+        .to(camera.position, {
+          x: -1.803124,
+          y: 1.151087,
+          z: 2.103269,
+          duration: 0.35,
+          ease: "power2.out"
+        })
+        .to(camera.position, {
+          x: -0.741165,
+          y: 1.407466,
+          z: 2.543563,
+          duration: 1,
+          ease: "power3.out"
+        })
+        .to(light, {
+          intensity: 10,
+          duration: 1.35,
+          ease: "power2.out"
+        }, 0)
+        .to(model.rotation, {
+          z: 0.30,
+          duration: 0.08,
+          repeat: 9,
+          yoyo: true,
+          ease: "sine.inOut"
+        })
+        .to({}, { duration: 0.25 })
+        .to(model.rotation, {
+          z: 0.30,
+          duration: 0.08,
+          repeat: 9,
+          yoyo: true,
+          ease: "sine.inOut"
+        })
+        .to({}, { duration: 0.25 })
+        .to(light, {
+          intensity: 0,
+          duration: 0.3
+        })
+        .to(model.scale, {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 0.5
+        })
+        .call(() => {
+          setShowCards(true);
+          setLoading(false);
+          setEnableRotate(true);
+        });
+    } catch (error) {
+      console.error(error);
+    
+      
+    }
   }
-
-
 
 
   const handleCardFlip = (cardRef, hasFlipped, cardData) => {
@@ -225,7 +226,7 @@ function Home() {
     };
 
     initializeUser();
-    
+
 
   }, []);
 
@@ -282,6 +283,25 @@ function Home() {
 
   return (
     <main className="flex flex-col h-screen overflow-x-hidden overflow-y-auto gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-8 xl:overflow-hidden">
+      {loading && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        >
+          <div className="rounded-xl border border-[var(--gold)] bg-[var(--brown)] px-8 py-6 text-center shadow-2xl">
+            <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-white/30 border-t-[var(--gold)]" />
+
+            <p className="font-cinzel text-xl text-[var(--white)]">
+              Please wait
+            </p>
+
+            <p className="mt-2 font-cormorant text-lg text-[var(--white)]/70">
+              Preparing your Pokemon cards...
+            </p>
+          </div>
+        </div>
+      )}
       <Navbar
         pokemonCount={pokemonData ? pokemonData.length : 0}
         deck={pokemonData ? pokemonData.slice(0, 3) : []}
@@ -397,15 +417,17 @@ function Home() {
             :
             (<button
               onClick={handleGameLogic}
+              disabled={loading}
               className="shrink-0 bg-[var(--gold)] border border-[var(--black)]/60 text-[var(--black)] text-lg px-5 py-3 rounded-xl font-cinzel hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 hover:cursor-pointer sm:text-xl sm:px-6 sm:py-3 md:text-xl md:px-7 md:py-4 lg:text-2xl lg:px-8 lg:py-4 xl:text-2xl xl:px-8 xl:py-4">
-              CATCH POKEMON
-            </button>)
+              {loading ? "Preparing..." : "CATCH POKEMON"}
+            </button>
+          )
           }
-        </div>
-
-
       </div>
-    </main>
+
+
+    </div>
+    </main >
   );
 }
 
