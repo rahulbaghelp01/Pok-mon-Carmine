@@ -247,14 +247,18 @@ Things I'd like to add down the line:
 ---
 
 ## Screenshots
+ 
 
-Screenshots and gameplay clips coming soon.
+
+
+https://github.com/user-attachments/assets/4f4e3d12-42a8-4232-86e5-370a72b6ffc4
+
+
 
 ---
 
 ## Live Demo
 
-[Pokémon Carmine](https://pok-mon-carmine.vercel.app/)
 
 ---
 
