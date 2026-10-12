@@ -22,16 +22,16 @@ const Card = forwardRef(
         };
 
         return (
-            <div onClick={onCardClick} onMouseEnter={onMouseEnter} className={`${classNameTwo} [perspective:1000px]`}>
-
-                <div ref={ref}
-                    className="
-                    relative
-                    h-90 w-60
-                    lg:h-60 lg:w-45
-                    xl:h-90 xl:w-60
-                    [transform-style:preserve-3d]
-                "
+            <div
+                style={{ pointerEvents: "none" }}
+                className={`${classNameTwo} [perspective:1000px]`}
+            >
+                <div
+                    ref={ref}
+                    onClick={onCardClick}
+                    onMouseEnter={onMouseEnter}
+                    style={{ pointerEvents: "auto", cursor: "pointer" }}
+                    className="relative h-90 w-60 lg:h-60 lg:w-45 xl:h-90 xl:w-60 [transform-style:preserve-3d]"
                 >
 
                     {/* FRONT */}

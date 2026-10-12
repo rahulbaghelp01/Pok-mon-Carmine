@@ -75,6 +75,9 @@ function Registration() {
             setErrorMessage("The user Already exists")
             return
         }
+        if(response.status === 404){
+            setErrorMessage("An unexpected error occured")
+        }
 
         if (response.ok) {
             navigate("/")
@@ -344,11 +347,11 @@ function Registration() {
                         <button
                             type="submit"
                             className="
-                                bg-[var(--gold)]
-                                    text-[var(--black)]
+                                bg-(--gold)
+                                    text-(--black)
                                     p-2 px-4
                                     rounded
-                                    border border-[var(--gold)]
+                                    border border-(--gold)
                                     hover:border-black
                                     hover:text-[var(--white)]
                                     hover:-translate-y-1

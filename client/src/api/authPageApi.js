@@ -44,7 +44,7 @@ export async function validateToken() {
 // Function to register a new user
 export async function register(username, email, password, pokemonId) {
     
-
+    try {
     const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {
@@ -67,6 +67,12 @@ export async function register(username, email, password, pokemonId) {
     return {
         ok: response.ok,
         status: response.status
+    }
+
+    } catch(error){
+        return {
+            message: "an error occured"
+        }
     }
 }
 

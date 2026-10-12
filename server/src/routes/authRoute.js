@@ -50,76 +50,86 @@ router.post("/validate", authMiddleware, (req, res) => {
 // POST request for registering a new user
 
 router.post("/register", async (req, res) => {
-    const { username, email, password, pokemonId } = req.body;
 
-    if (!username || !email || !password || pokemonId === undefined) {
-        return res.status(400).json({
-            message: "All fields are required."
+    try {
+
+
+        const { username, email, password, pokemonId } = req.body;
+
+        if (!username || !email || !password || pokemonId === undefined) {
+            return res.status(400).json({
+                message: "All fields are required."
+            });
+        }
+
+
+
+        const existingUser = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    { email: email },
+                    { username: username }
+                ]
+            }
+        });
+
+        if (existingUser) {
+            return res.status(409).json({
+                message: "The user with this name or email already exists. Please login."
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const generateGameId = customAlphabet("0123456789", 12);
+        const gamingId = generateGameId()
+
+
+        if (![1, 4, 7].includes(Number(pokemonId))) {
+            return res.status(400).json({
+                message: "Invalid starter Pokemon"
+            });
+        }
+
+        const user = await prisma.user.create({
+            data: {
+                gamingId,
+                username,
+                password: hashedPassword,
+                email
+            }
+        });
+
+        await prisma.userPokemon.create({
+            data: {
+                userId: user.id,
+                pokemonId
+            }
+        });
+
+        const token = jwt.sign(
+            {
+                userId: user.id,
+                gamingId: user.gamingId,
+                username: user.username,
+                email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        );
+
+        res.status(201).json({
+            message: "User registered successfully",
+            token
+        });
+    } catch(error){
+        res.status(404).json({
+            message: "something unexpected happened",
+            token
         });
     }
-
-    
-
-    const existingUser = await prisma.user.findFirst({
-        where: {
-            OR: [
-                { email: email },
-                { username: username }
-            ]
-        }
-    });
-
-    if (existingUser) {
-        return res.status(409).json({
-            message: "The user with this name or email already exists. Please login."
-        });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const generateGameId = customAlphabet("0123456789", 12);
-    const gamingId =  generateGameId() 
-
-
-    if (![1, 4, 7].includes(Number(pokemonId))) {
-        return res.status(400).json({
-            message: "Invalid starter Pokemon"
-        });
-    }
-
-    const user = await prisma.user.create({
-        data: {
-            gamingId,
-            username,
-            password: hashedPassword,
-            email
-        }
-    });
-
-    await prisma.userPokemon.create({
-        data: {
-            userId: user.id,
-            pokemonId
-        }
-    });
-
-    const token = jwt.sign(
-        {
-            userId: user.id,
-            gamingId: user.gamingId,
-            username: user.username,
-            email: user.email
-        },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: "7d"
-        }
-    );
-
-    res.status(201).json({
-        message: "User registered successfully",
-        token
-    });
 });
 
 
